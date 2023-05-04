@@ -1,0 +1,311 @@
+<!-- This is a website for testing a form setup -->
+<html>
+	<head>
+		<meta charset="utf-8">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		<title>OmniTracker</title>
+		<style>
+			.navbar {
+				background-color: #3d5a80;
+				border: 3px solid;
+				border-color: black;
+			}
+			li a {
+				font-family: 'Verdana';
+				font-size: 20px;
+				font-weight: bold;
+			  	color: #ee6c4d ;
+			}
+			.navbar-brand{
+				color: #ee6c4d ;
+				font-family: 'Verdana';
+				font-size: 20px;
+				font-weight: bold;
+			}
+			.navbar li a:hover {
+				background-color: #293241;
+				color: #ee6c4d ;
+			}
+			img {
+				width: 20px;
+				height: 20px;
+				margin-left: 5px;
+				vertical-align: middle;
+			}
+			.tableHead {
+				text-align: center;
+				padding: 10px;
+			}
+			table {
+				width: 66%;
+				margin-left: auto; 
+				margin-right: auto; 
+				text-align: center;
+				border-collapse: collapse;
+			}
+
+			td, th {
+				border-top: 1px solid #ccc;
+				border-bottom: 1px solid #ccc;
+			}
+
+			tr:first-child th {
+				border-top: none;
+			}
+
+			tr:last-child td {
+				border-bottom: none;
+			}
+			.left {
+				color: white;
+				text-align: left;
+				padding: 10px;
+			}
+			.right {
+				color: black;
+				text-align: right;
+				padding: 10px;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #D3D3D3;">
+
+		<!-- Top Navbar -->
+		<nav class="navbar navbar-static-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand"><img src="/static/images/OmniTracker.png" style="width: auto; height: 20px"></a>					
+				</div>
+				<ul class="nav navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li><a href="OmniView">View Trackers</a></li>
+					<li><a class="active" href="OmniMake">Make Tracker</a></li>
+					<li><a href="OmniCalendar">Calendar</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					{% if current_user.is_authenticated %}
+					<li><a href="OmniLogout">Logout</a></li>
+					{% else %}
+					<li><a href="OmniLogin">Login</a></li>
+					<li><a href="OmniSignUp">Sign Up</a></li>
+					{% endif %}
+				</ul>
+			</div>
+		</nav>
+
+		<!-- Bottom Navbar -->
+		<nav class="navbar navbar-fixed-bottom">
+			<div class="container-fluid">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="OmniAbout">About Me</a></li>
+					<li><a href="PUT GITHUB REPO LINK HER">GitHub</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		
+		<!-- Content of the paage -->
+		<div class="form-group" style="text-align:center; font-family: 'Verdana'; font-size: 16px; width: 66%; margin-left: auto; margin-right: auto; margin-top: 100px;color: black; background-color: #293241 ; padding: 15px; border-radius: 15px;">
+
+			<button type="button" class="btn btn-secondary" onclick="appendField()">Add Field</button>
+
+			<form class="form-inline" action="{{ url_for('views.make') }}" method="post">
+				<div id="mainForm" style="display: inline-block; text-align: left; width: 60%;">
+					<table id = "mainTable">
+						<thead>
+							<tr>
+								<th class="left">Field Number</th>
+								<th class="right" style="color: white;">Field Type</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="left">
+									<label type="label" id="label1" class="control-label" for="1">1st Field Type</label>
+								</td>
+								<td class="right">
+									<select id="1" name="1" style="margin-right: 25px;">
+										<option>Text</option>
+										<option>Date</option>
+										<option>Time</option>
+										<option>Image</option>
+										<option>File</option>
+									</select>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					
+
+					
+
+				</div>
+
+				<div class="text-center">
+					<button type="submit" class="btn btn-primary" style="height: 50px; width: 100px; font-size: 20px; margin-left: auto; margin-right: auto; margin-top: 30px;">Submit</button>
+				</div>
+			</form>
+		</div>
+
+
+
+		<script type="text/javascript">
+			function appendField() {
+
+				// Getting the fields and what the next number for the fields is
+				var container = document.getElementById("mainForm");
+				var fields = container.getElementsByTagName("select");
+				var num = fields.length + 1;
+
+				// Adding the ordinal to the number
+				var lastDigit = num % 10;
+				if (lastDigit == 1) {
+					var word = num+"st";
+				}
+				else if (lastDigit == 2) {
+					var word = num+"nd";
+				}
+				else if (lastDigit == 3) {
+					var word = num+"rd";
+				}
+				else {
+					var word = num+"th";
+				}
+
+				// Creating the row and cells of the table
+				var table = document.getElementById("mainTable");
+				var newRow = table.insertRow();
+				var cell1 = newRow.insertCell(0);
+				var cell2 = newRow.insertCell(1);
+				cell1.className = "left";
+				cell2.className = "right";
+
+				// Creating the label element
+				var label = document.createElement("label");
+				label.textContent = word + " Field Type";
+				label.type = "label";
+				label.id = "label" + num;
+				label.className = "control-label";
+				label.for = String(num);
+				//container.appendChild(label);
+				cell1.innerHTML = label.outerHTML;
+
+				// Creating the select element
+				var select = document.createElement("select");
+				select.id = String(num);
+				select.name = String(num);
+				container.appendChild(select);
+				// Making the option list for the select element
+				var array = ["Text","Date","Time","Image", "File"];
+				var selectList = document.getElementById(String(num));
+				for (var i = 0; i < array.length; i++) {
+					var option = document.createElement("option");
+					option.text = array[i];
+					selectList.appendChild(option);
+				}
+
+				// Making the delete field button
+				var imgInput = document.createElement("img");
+				imgInput.title = "Delete Field";
+				imgInput.src="/static/images/delete.png";
+				imgInput.id = "deleteBtn"+num;
+				imgInput.addEventListener("click", deleteField);
+				//container.appendChild(imgInput);
+
+				var div = document.createElement("div");
+				div.appendChild(select);
+				div.appendChild(imgInput);
+				cell2.innerHTML = div.outerHTML;
+				delbtn = document.getElementById("deleteBtn"+num);
+				delbtn.addEventListener("click", deleteField);
+
+
+				// Adding the newline
+				//var br = document.createElement("br");
+				//br.id = "br"+num;
+				//container.appendChild(br);
+
+				// Lastly adding the onClick event for the delete button
+				imgInput.addEventListener("click", deleteField);
+			}
+
+
+			function deleteField(event) {
+
+				// Getting the field number
+				var num = event.target.id.replace(/\D/g, "");
+				var container = document.getElementById("mainForm");
+				var fields = container.getElementsByTagName("select");
+				len = fields.length;
+
+				// Getting all the elements for the field
+				var label = document.getElementById(String("label"+num));
+				var select = document.getElementById(String(num));
+				var imgInput = document.getElementById(String("deleteBtn"+num));
+				var br = document.getElementById(String("br"+num));
+
+				// Deleting the field
+				if (label) { // Error checking for if it actually exists
+					const table = document.getElementById("mainTable");
+					table.deleteRow(num);
+					label.remove();
+					select.remove();
+					imgInput.remove();
+				}
+				else {
+					console.warn("label of id: label" + num + " does not exist")
+				}
+
+				// Now to lower all the remaining fields after it by 1 to keep the count correct
+				if (num < len) {
+					var start = parseInt(num)+1;
+					var end = len;
+
+					for (i = start; i <= end; i++) {
+
+						const label = document.getElementById(String("label"+i));
+						const select = document.getElementById(String(i));
+						const imgInput = document.getElementById(String("deleteBtn"+i));
+						const br = document.getElementById(String("br"+i));
+
+						if (label) { // Error checking for if it actually exists
+
+							// Changing label id and text
+							label.id = "label" + (i-1);
+							var lastDigit = (i-1) % 10; // Adding the ordinal to the number
+							if (lastDigit == 1) {
+								var word = (i-1)+"st";
+							}
+							else if (lastDigit == 2) {
+								var word = (i-1)+"nd";
+							}
+							else if (lastDigit == 3) {
+								var word = (i-1)+"rd";
+							}
+							else {
+								var word = (i-1)+"th";
+							}
+							label.textContent = word + " Field Type"
+
+							// Changing the select id & name
+							select.id = i - 1;
+							select.name = i - 1;
+
+							// Changing image id
+							imgInput.id = "deleteBtn" + (i-1);
+						}
+						else {
+							console.warn("label of id: label" + num + " does not exist")
+						}
+					}
+				}
+
+			}
+		</script>
+
+	</body>
+</html>

@@ -1,0 +1,139 @@
+<!-- This is a website for testing a form setup -->
+<html>
+	<head>
+		<meta charset="utf-8">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		<title>OmniTracker</title>
+		<style>
+			.navbar {
+				background-color: #3d5a80;
+				border: 3px solid;
+				border-color: black;
+			}
+			li a {
+				font-family: 'Verdana';
+				font-size: 20px;
+				font-weight: bold;
+			  	color: #ee6c4d ;
+			}
+			.navbar-brand{
+				color: #ee6c4d ;
+				font-family: 'Verdana';
+				font-size: 20px;
+				font-weight: bold;
+			}
+			.navbar li a:hover {
+				background-color: #293241;
+				color: #ee6c4d ;
+			}
+			img {
+				width: 20px;
+				height: 20px;
+				margin-left: 5px;
+				vertical-align: middle;
+			}
+			.tableHead {
+				text-align: center;
+				padding: 10px;
+			}
+			table {
+				width: 66%;
+				margin-left: auto; 
+				margin-right: auto; 
+				text-align: center;
+			}
+			.left {
+				color: white;
+				text-align: left;
+				padding: 10px;
+			}
+			.right {
+				color: black;
+				text-align: right;
+				padding: 10px;
+			}
+			.middle {
+				color: white;
+				text-align: center;
+				padding: 10px;
+			}
+			.error {
+				background-color: #ee6c4d;
+				width: 90%;
+				color: white;
+				border-radius: 5px;
+				margin-left: auto;
+				margin-right: auto;
+				padding: 15px;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #D3D3D3;">
+
+		<!-- Top Navbar -->
+		<nav class="navbar navbar-static-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand"><img src="/static/images/OmniTracker.png" style="width: auto; height: 20px"></a>					
+				</div>
+				<ul class="nav navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li><a href="OmniView">View Trackers</a></li>
+					<li><a class="active" href="OmniMake">Make Tracker</a></li>
+					<li><a href="OmniCalendar">Calendar</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="OmniLogin">Login</a></li>
+					<li><a href="OmniSignUp">Sign Up</a></li>
+					<!--<li><a href="OmniProfile"><img src="/static/images/profile.png" style="width: 20px; height: 20px;"></a></li> -->
+				</ul>
+			</div>
+		</nav>
+
+		<!-- Bottom Navbar -->
+		<nav class="navbar navbar-fixed-bottom">
+			<div class="container-fluid">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="OmniAbout">About Me</a></li>
+					<li><a href="PUT GITHUB REPO LINK HER">GitHub</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		
+		<!-- Content of the paage -->
+		<div class="form-group" style="text-align:center; font-family: 'Verdana'; font-size: 16px; width: 720px; margin-left: auto; margin-right: auto; margin-top: 100px;color: white; background-color: #293241 ; padding: 15px; border-radius: 15px;">
+
+			<p>Logout</p>
+			<form class="form-inline" action="/OmniLogout" method="post">
+				<table id = "mainTable">
+						<thead>
+							<tr>
+								<th class="middle">Welcome:</th>
+								<th class="middle"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="left">
+									<p>{%email%}</p>
+								</td>
+								<td class="right">
+									<button type="submit" class="btn btn-primary">Logout</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+			</form>
+
+		</div>
+
+
+
+	</body>
+</html>
