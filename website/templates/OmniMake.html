@@ -46,12 +46,6 @@
 				text-align: center;
 				border-collapse: collapse;
 			}
-
-			td, th {
-				border-top: 1px solid #ccc;
-				border-bottom: 1px solid #ccc;
-			}
-
 			tr:first-child th {
 				border-top: none;
 			}
@@ -60,14 +54,25 @@
 				border-bottom: none;
 			}
 			.left {
-				color: white;
+				color: #ee6c4d;
 				text-align: left;
 				padding: 10px;
+				border-top: 1px solid #ccc;
+				border-bottom: 1px solid #ccc;
 			}
 			.right {
 				color: black;
 				text-align: right;
 				padding: 10px;
+				border-top: 1px solid #ccc;
+				border-bottom: 1px solid #ccc;
+			}
+			.middle {
+				color: #ee6c4d;
+				text-align: center;
+				padding: 10px;
+				border-top: 1px solid #ccc;
+				border-bottom: 1px solid #ccc;
 			}
 		</style>
 	</head>
@@ -111,15 +116,36 @@
 		<!-- Content of the paage -->
 		<div class="form-group" style="text-align:center; font-family: 'Verdana'; font-size: 16px; width: 66%; margin-left: auto; margin-right: auto; margin-top: 100px;color: black; background-color: #293241 ; padding: 15px; border-radius: 15px;">
 
-			<button type="button" class="btn btn-secondary" onclick="appendField()">Add Field</button>
-
 			<form class="form-inline" action="{{ url_for('views.make') }}" method="post">
 				<div id="mainForm" style="display: inline-block; text-align: left; width: 60%;">
+
+
+					<table>
+						<thead>
+							<tr>
+								<th style="text-align: left; color: #ee6c4d;">Table Name:</th>
+								<th style="text-align: right; color: #ee6c4d;">Click to add a field:</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td style="text-align: left; color: black;">
+									<input type="text" name="tableName" placeholder="Table Name">
+								</td>
+								<td style="text-align: right; color: black;">
+									<button type="button" class="btn btn-secondary" onclick="appendField()">Add Field</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+					<br><br>
+
 					<table id = "mainTable">
 						<thead>
 							<tr>
 								<th class="left">Field Number</th>
-								<th class="right" style="color: white;">Field Type</th>
+								<th class="right" style="color: #ee6c4d;">Field Type</th>
 							</tr>
 						</thead>
 						<tbody>
