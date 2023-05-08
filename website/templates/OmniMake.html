@@ -117,8 +117,9 @@
 		<div class="form-group" style="text-align:center; font-family: 'Verdana'; font-size: 16px; width: 66%; margin-left: auto; margin-right: auto; margin-top: 100px;color: black; background-color: #293241 ; padding: 15px; border-radius: 15px;">
 
 			<form class="form-inline" action="{{ url_for('views.make') }}" method="post">
-				<div id="mainForm" style="display: inline-block; text-align: left; width: 60%;">
+				<div id="mainForm" style="display: inline-block; text-align: left; width: 90%;">
 
+					<input type="hidden" id="fieldCount" name="fieldCount" value="1">
 
 					<table>
 						<thead>
@@ -130,7 +131,7 @@
 						<tbody>
 							<tr>
 								<td style="text-align: left; color: black;">
-									<input type="text" name="tableName" placeholder="Table Name">
+									<input type="text" id="tableName" name="tableName" placeholder="Table Name">
 								</td>
 								<td style="text-align: right; color: black;">
 									<button type="button" class="btn btn-secondary" onclick="appendField()">Add Field</button>
@@ -145,21 +146,22 @@
 						<thead>
 							<tr>
 								<th class="left">Field Number</th>
+								<th class="middle">Field Name:</th>
 								<th class="right" style="color: #ee6c4d;">Field Type</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td class="left">
-									<label type="label" id="label1" class="control-label" for="1">1st Field Type</label>
+									<label type="label" id="label1" class="control-label" for="1">1st Field</label>
+								</td>
+								<td class="middle">
+									<input type="text" id="1name" name="1name" placeholder="Field Name">
 								</td>
 								<td class="right">
 									<select id="1" name="1" style="margin-right: 25px;">
 										<option>Text</option>
-										<option>Date</option>
-										<option>Time</option>
-										<option>Image</option>
-										<option>File</option>
+										<option>Number</option>
 									</select>
 								</td>
 							</tr>
@@ -207,8 +209,10 @@
 				var newRow = table.insertRow();
 				var cell1 = newRow.insertCell(0);
 				var cell2 = newRow.insertCell(1);
+				var cell3 = newRow.insertCell(2);
 				cell1.className = "left";
-				cell2.className = "right";
+				cell2.className = "middle";
+				cell3.className = "right";
 
 				// Creating the label element
 				var label = document.createElement("label");
@@ -217,8 +221,15 @@
 				label.id = "label" + num;
 				label.className = "control-label";
 				label.for = String(num);
-				//container.appendChild(label);
 				cell1.innerHTML = label.outerHTML;
+
+				// Creating the input name element
+				var input = document.createElement("input");
+				input.type = "text";
+				input.id = num+"name";
+				input.name = num+"name";
+				input.placeholder = "Field Name";
+				cell2.innerHTML = input.outerHTML;
 
 				// Creating the select element
 				var select = document.createElement("select");
@@ -226,7 +237,7 @@
 				select.name = String(num);
 				container.appendChild(select);
 				// Making the option list for the select element
-				var array = ["Text","Date","Time","Image", "File"];
+				var array = ["Text","Number"];
 				var selectList = document.getElementById(String(num));
 				for (var i = 0; i < array.length; i++) {
 					var option = document.createElement("option");
@@ -240,23 +251,22 @@
 				imgInput.src="/static/images/delete.png";
 				imgInput.id = "deleteBtn"+num;
 				imgInput.addEventListener("click", deleteField);
-				//container.appendChild(imgInput);
 
+				// Combining the delete button and field type selector so they can be added to the table cell
 				var div = document.createElement("div");
 				div.appendChild(select);
 				div.appendChild(imgInput);
-				cell2.innerHTML = div.outerHTML;
+				cell3.innerHTML = div.outerHTML;
 				delbtn = document.getElementById("deleteBtn"+num);
 				delbtn.addEventListener("click", deleteField);
 
-
-				// Adding the newline
-				//var br = document.createElement("br");
-				//br.id = "br"+num;
-				//container.appendChild(br);
+				// Incrementing the inivisble field counter used in the python code
+				var fieldCount = document.getElementById("fieldCount");
+				var val = parseInt(fieldCount.value) || 0;
+				fieldCount.value = val + 1;
 
 				// Lastly adding the onClick event for the delete button
-				imgInput.addEventListener("click", deleteField);
+				//imgInput.addEventListener("click", deleteField);
 			}
 
 
@@ -270,6 +280,7 @@
 
 				// Getting all the elements for the field
 				var label = document.getElementById(String("label"+num));
+				var input = document.getElementById(String(num+"name"));
 				var select = document.getElementById(String(num));
 				var imgInput = document.getElementById(String("deleteBtn"+num));
 				var br = document.getElementById(String("br"+num));
@@ -279,6 +290,7 @@
 					const table = document.getElementById("mainTable");
 					table.deleteRow(num);
 					label.remove();
+					input.remove();
 					select.remove();
 					imgInput.remove();
 				}
@@ -294,6 +306,7 @@
 					for (i = start; i <= end; i++) {
 
 						const label = document.getElementById(String("label"+i));
+						const input = document.getElementById(String(i+"name"));
 						const select = document.getElementById(String(i));
 						const imgInput = document.getElementById(String("deleteBtn"+i));
 						const br = document.getElementById(String("br"+i));
@@ -317,6 +330,10 @@
 							}
 							label.textContent = word + " Field Type"
 
+							// Changing input id & name
+							input.id = String((i-1)+"name");
+							input.name = String((i-1)+"name");
+
 							// Changing the select id & name
 							select.id = i - 1;
 							select.name = i - 1;
@@ -329,6 +346,11 @@
 						}
 					}
 				}
+
+				// Decrementing the inivisble field counter used in the python code
+				var fieldCount = document.getElementById("fieldCount");
+				var val = parseInt(fieldCount.value) || 0;
+				fieldCount.value = val - 1;
 
 			}
 		</script>
