@@ -87,9 +87,12 @@
 					<li><a href="OmniCalendar">Calendar</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
+					{% if current_user.is_authenticated %}
+					<li><a href="OmniLogout">Logout</a></li>
+					{% else %}
 					<li><a href="OmniLogin">Login</a></li>
 					<li><a href="OmniSignUp">Sign Up</a></li>
-					<!--<li><a href="OmniProfile"><img src="/static/images/profile.png" style="width: 20px; height: 20px;"></a></li> -->
+					{% endif %}
 				</ul>
 			</div>
 		</nav>
@@ -99,7 +102,7 @@
 			<div class="container-fluid">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="OmniAbout">About Me</a></li>
-					<li><a href="PUT GITHUB REPO LINK HER">GitHub</a></li>
+					<li><a href="https://github.com/AlexJButton/OmniTracker" target="_blank" rel="noopener noreferrer">GitHub</a></li>
 				</ul>
 			</div>
 		</nav>

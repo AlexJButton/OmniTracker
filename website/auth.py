@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, url_for, redirect, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
-from flask_login import login_user, login_required, logout_user
+from flask_login import login_user, login_required, logout_user, current_user
 from . import db
 
 auth = Blueprint('auth', __name__)
@@ -61,5 +61,14 @@ def signup2():
 @auth.route('/OmniLogout')
 @login_required
 def logout():
-    logout_user()
+    uID = current_user.id
+    user = User.query.get(int(uID))
+
+    return render_template("OmniLogout.html", email=user.email)
+
+@auth.route('/OmniLogout', methods=["POST"])
+@login_required
+def logout2():
+    if request.method == "POST":
+        logout_user()
     return redirect(url_for('views.home'))

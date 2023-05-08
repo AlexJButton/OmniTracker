@@ -41,6 +41,7 @@
 			}
 			table {
 				width: 66%;
+				table-layout: fixed;
 				margin-left: auto; 
 				margin-right: auto; 
 				text-align: center;
@@ -87,9 +88,12 @@
 					<li><a href="OmniCalendar">Calendar</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
+					{% if current_user.is_authenticated %}
+					<li><a href="OmniLogout">Logout</a></li>
+					{% else %}
 					<li><a href="OmniLogin">Login</a></li>
 					<li><a href="OmniSignUp">Sign Up</a></li>
-					<!--<li><a href="OmniProfile"><img src="/static/images/profile.png" style="width: 20px; height: 20px;"></a></li> -->
+					{% endif %}
 				</ul>
 			</div>
 		</nav>
@@ -99,7 +103,7 @@
 			<div class="container-fluid">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="OmniAbout">About Me</a></li>
-					<li><a href="PUT GITHUB REPO LINK HER">GitHub</a></li>
+					<li><a href="https://github.com/AlexJButton/OmniTracker" target="_blank" rel="noopener noreferrer">GitHub</a></li>
 				</ul>
 			</div>
 		</nav>
@@ -108,19 +112,19 @@
 		<!-- Content of the paage -->
 		<div class="form-group" style="text-align:center; font-family: 'Verdana'; font-size: 16px; width: 720px; margin-left: auto; margin-right: auto; margin-top: 100px;color: white; background-color: #293241 ; padding: 15px; border-radius: 15px;">
 
-			<p>Logout</p>
+			<p>Do you want to logout?</p>
 			<form class="form-inline" action="/OmniLogout" method="post">
 				<table id = "mainTable">
 						<thead>
 							<tr>
-								<th class="middle">Welcome:</th>
+								<th class="left">Welcome:</th>
 								<th class="middle"></th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td class="left">
-									<p>{%email%}</p>
+									<p>{{email}}</p>
 								</td>
 								<td class="right">
 									<button type="submit" class="btn btn-primary">Logout</button>
