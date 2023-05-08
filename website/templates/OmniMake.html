@@ -41,6 +41,7 @@
 			}
 			table {
 				width: 66%;
+				table-layout: fixed;
 				margin-left: auto; 
 				margin-right: auto; 
 				text-align: center;
@@ -190,19 +191,7 @@
 				var num = fields.length + 1;
 
 				// Adding the ordinal to the number
-				var lastDigit = num % 10;
-				if (lastDigit == 1) {
-					var word = num+"st";
-				}
-				else if (lastDigit == 2) {
-					var word = num+"nd";
-				}
-				else if (lastDigit == 3) {
-					var word = num+"rd";
-				}
-				else {
-					var word = num+"th";
-				}
+				var word = getOrdinal(num)
 
 				// Creating the row and cells of the table
 				var table = document.getElementById("mainTable");
@@ -216,7 +205,7 @@
 
 				// Creating the label element
 				var label = document.createElement("label");
-				label.textContent = word + " Field Type";
+				label.textContent = word + " Field";
 				label.type = "label";
 				label.id = "label" + num;
 				label.className = "control-label";
@@ -315,19 +304,7 @@
 
 							// Changing label id and text
 							label.id = "label" + (i-1);
-							var lastDigit = (i-1) % 10; // Adding the ordinal to the number
-							if (lastDigit == 1) {
-								var word = (i-1)+"st";
-							}
-							else if (lastDigit == 2) {
-								var word = (i-1)+"nd";
-							}
-							else if (lastDigit == 3) {
-								var word = (i-1)+"rd";
-							}
-							else {
-								var word = (i-1)+"th";
-							}
+							var word = getOrdinal(i);
 							label.textContent = word + " Field Type"
 
 							// Changing input id & name
@@ -352,6 +329,25 @@
 				var val = parseInt(fieldCount.value) || 0;
 				fieldCount.value = val - 1;
 
+			}
+
+			function getOrdinal(num) {
+				// Function to get a number and to attach the ordinal to it
+				var lastDigit = num % 10;
+				if (lastDigit == 1) {
+					var word = num+"st";
+				}
+				else if (lastDigit == 2) {
+					var word = num+"nd";
+				}
+				else if (lastDigit == 3) {
+					var word = num+"rd";
+				}
+				else {
+					var word = num+"th";
+				}
+
+				return word;
 			}
 		</script>
 
