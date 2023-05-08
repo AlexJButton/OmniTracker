@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, Flask
 from flask_login import login_required, current_user
-from sqlalchemy import MetaData, Table, Column, Integer, String
+from sqlalchemy import MetaData, Table, Column, Integer, Text
 from . import db
 
 views = Blueprint('views', __name__)
@@ -24,12 +24,10 @@ def make():
         # Getting all the user specified info from the user
         tName = request.form.get("tableName")
         num = int(request.form.get("fieldCount")) # This is the invisible input value for how many fields there are
-        print(num)
         fieldsList = []
         for i in range(1, num+1):
             fName = request.form.get(f"{i}name")
             fType = request.form.get(f"{i}")
-            print(fName)
             fieldsList.append(Column(fName, colType(fType)))
 
         uID = current_user.id  # Getting the user id and adding it to the table name for later retrieval uses
@@ -62,8 +60,11 @@ def calendar():
 
 def colType(col):
     if col == "Text":
-        return Integer()
+        print(col, "is returning Text")
+        return Text()
     elif col == "Number":
-        return String()
-
-    return String()
+        print(col, "is returning Integer")
+        return Integer()
+    else:
+        print(col, "is returning base case")
+        return Text()
