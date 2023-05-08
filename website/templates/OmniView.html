@@ -40,34 +40,19 @@
 				padding: 10px;
 			}
 			table {
-				width: 66%;
+				width: 90%;
+				table-layout: fixed;
 				margin-left: auto; 
 				margin-right: auto; 
 				text-align: center;
+				color: #ee6c4d;
+			}
+			.cell {
+				color: #ee6c4d;
+				text-align: center;
+				padding: 10px;
 				border-collapse: collapse;
-			}
-
-			td, th {
-				border-top: 1px solid #ccc;
-				border-bottom: 1px solid #ccc;
-			}
-
-			tr:first-child th {
-				border-top: none;
-			}
-
-			tr:last-child td {
-				border-bottom: none;
-			}
-			.left {
-				color: white;
-				text-align: left;
-				padding: 10px;
-			}
-			.right {
-				color: black;
-				text-align: right;
-				padding: 10px;
+				border: 1px #ee6c4d solid;
 			}
 		</style>
 	</head>
@@ -109,7 +94,7 @@
 
 		
 		<!-- Content of the paage -->
-		<div style="text-align:center; font-family: 'Verdana'; font-size: 16px; width: 66%; margin-left: auto; margin-right: auto; margin-top: 100px;color: white; background-color: #293241 ; padding: 15px; border-radius: 15px;">
+		<div style="text-align:center; font-family: 'Verdana'; font-size: 16px; width: 66%; margin-left: auto; margin-right: auto; margin-top: 100px;color: white; background-color: #293241 ; padding: 15px; border-radius: 15px; color: #ee6c4d;">
 
 			<p><u>Your Trackers</u></p>
 
@@ -119,11 +104,12 @@
 					<th></th>
 					<th></th>
 				</tr>
-				{% for item in trackers %}
-				 <tr>
-				 	<td>{{item}}</td>
-				 {% cycle '', '', '</tr><tr>' %}
-				 </tr>
+				{% for row in trackers|batch(3) %}
+					<tr>
+					{% for col in row %}
+						<td class="cell">{{ col }}</td>
+					{% endfor %}
+					</tr>
 				{% endfor %}
 
 			</table>

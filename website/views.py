@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, Flask
 from flask_login import login_required, current_user
-from sqlalchemy import MetaData, Table, Column, Integer, Text
+from sqlalchemy import MetaData, Table, Column, Integer, Text, inspect
 from . import db
 
 views = Blueprint('views', __name__)
@@ -13,7 +13,15 @@ def home():
 @views.route('/OmniView')
 @login_required
 def view():
-    return render_template("OmniView.html")
+
+    uID = current_user.id
+    inspector = inspect(db.engine)
+    trackers = [name for name in inspector.get_table_names() if name.startswith(str(uID))]
+
+    print(uID)
+    print(trackers)
+
+    return render_template("OmniView.html", trackers=trackers)
 
 
 @views.route('/OmniMake', methods=['GET', 'POST'])
@@ -39,12 +47,6 @@ def make():
                           *fieldsList)
 
         metadata.create_all(db.engine)
-
-        # Create the table with the user given information
-        #meta = MetaData()
-        #meta.bind = db.engine
-        #tableData = Table(tNameUID, meta, *fieldsList)
-        #meta.create_all(bind=db.engine)
 
         return "Success?"
 
