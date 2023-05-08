@@ -111,7 +111,22 @@
 		<!-- Content of the paage -->
 		<div style="text-align:center; font-family: 'Verdana'; font-size: 16px; width: 66%; margin-left: auto; margin-right: auto; margin-top: 100px;color: white; background-color: #293241 ; padding: 15px; border-radius: 15px;">
 
-			<p>Basic into page</p>
+			<p><u>Your Trackers</u></p>
+
+			<table class="displayTable">
+				<tr>
+					<th></th>
+					<th></th>
+					<th></th>
+				</tr>
+				{% for item in trackers %}
+				 <tr>
+				 	<td>{{item}}</td>
+				 {% cycle '', '', '</tr><tr>' %}
+				 </tr>
+				{% endfor %}
+
+			</table>
 			
 
 		</div>
