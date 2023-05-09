@@ -97,14 +97,14 @@
 				<ul class="nav navbar-nav">
 					<li><a href="/">Home</a></li>
 					<li><a href="OmniView">View Trackers</a></li>
-					<li><a class="active" href="OmniMake">Make Tracker</a></li>
+					<li><a href="OmniMake">Make Tracker</a></li>
 					<li><a href="OmniCalendar">Calendar</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					{% if current_user.is_authenticated %}
 					<li><a href="OmniLogout">Logout</a></li>
 					{% else %}
-					<li><a href="OmniLogin">Login</a></li>
+					<li><a class="active" href="OmniLogin">Login</a></li>
 					<li><a href="OmniSignUp">Sign Up</a></li>
 					{% endif %}
 				</ul>

@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, Flask, redirect, url_for
 from flask_login import login_required, current_user
-from sqlalchemy import MetaData, Table, Column, Integer, Text, inspect
+from sqlalchemy import MetaData, Table, Column, Integer, Text, inspect, text
 from . import db
 
 views = Blueprint("views", __name__)
@@ -35,14 +35,14 @@ def view():
 def edit(tracker):
 
     # Getting the columns of the specified table
-    engine = db.engine()
-    uID = current_user.id
-    tableName = f"{uID}_{tracker}"
+    engine = db.engine
+    inspector = inspect(engine)
+    tableName = f"{current_user.id}_{tracker}"
     with engine.connect() as connection:
-        tableCols = connection.execute(f"SELECT name FROM sys.columns WHERE object_id = OBJECT_ID('{tableName}')")
-        tableRows = connection.execute(f"SELECT * FROM {tableName}")
+        tableCols = [dict["name"] for dict in inspector.get_columns(tableName)]
+        tableRows = connection.execute(text(f"SELECT * FROM '{tableName}'"))
 
-    return render_template("OmniEdit", tName=tracker, tableCols=tableCols, tableRows=tableRows)
+    return render_template("OmniEdit.html", tName=tracker, tableCols=tableCols, tableRows=tableRows)
 
 
 #@views.route("OmniEdit")

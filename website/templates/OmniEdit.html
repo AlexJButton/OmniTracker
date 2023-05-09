@@ -43,6 +43,14 @@
 				background-color: #293241;
 				color: #ee6c4d ;
 			}
+			.editTable {
+				width: 90%;
+				table-layout: fixed;
+				margin-left: auto; 
+				margin-right: auto; 
+				text-align: center;
+				color: #ee6c4d;
+			}
 		</style>
 	</head>
 
@@ -56,16 +64,16 @@
 				</div>
 				<ul class="nav navbar-nav">
 					<li><a href="/">Home</a></li>
-					<li><a href="OmniView">View Trackers</a></li>
-					<li><a class="active" href="OmniMake">Make Tracker</a></li>
-					<li><a href="OmniCalendar">Calendar</a></li>
+					<li><a href="/OmniView">View Trackers</a></li>
+					<li><a href="/OmniMake">Make Tracker</a></li>
+					<li><a href="/OmniCalendar">Calendar</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					{% if current_user.is_authenticated %}
-					<li><a href="OmniLogout">Logout</a></li>
+					<li><a href="/OmniLogout">Logout</a></li>
 					{% else %}
-					<li><a href="OmniLogin">Login</a></li>
-					<li><a href="OmniSignUp">Sign Up</a></li>
+					<li><a href="/OmniLogin">Login</a></li>
+					<li><a href="/OmniSignUp">Sign Up</a></li>
 					{% endif %}
 				</ul>
 			</div>
@@ -92,13 +100,17 @@
 					{% for field in tableCols %}
 						<th class="previewCell">{{ field }}</th>
 					{% endfor %}
+					<th></th>
 				</tr>
+				{% set i = namespace(value=0) %}
 				{% for row in tableRows %}
 					<tr>
 						{% for item in row %}
 							<td>{{ item }}</td>
 						{% endfor %}
+						<td><img title="Delete Field" src="/static/images/delete.png" id="deleteBtn{{i.value}}" onclick="deleteBtn()"></img></td>
 					</tr>
+					{% set i.value = i.value + 1 %}
 				{% endfor %}
 			</table>
 
