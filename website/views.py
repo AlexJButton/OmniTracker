@@ -3,14 +3,14 @@ from flask_login import login_required, current_user
 from sqlalchemy import MetaData, Table, Column, Integer, Text, inspect
 from . import db
 
-views = Blueprint('views', __name__)
+views = Blueprint("views", __name__)
 
-@views.route('/')
+@views.route("/")
 def home():
     return render_template("OmniHome.html")
 
 
-@views.route('/OmniView')
+@views.route("/OmniView")
 @login_required
 def view():
 
@@ -20,12 +20,9 @@ def view():
     trackers = [name for name in inspector.get_table_names() if name.startswith(str(uID))]
 
     # Getting the columns of each table
-    metadata = db.metadata
-    #tables = [metadata.tables.get(table_name) for table_name in trackers]
     tableCols = []
     for i in range(len(trackers)):
         tableCols.append([dict["name"] for dict in inspector.get_columns(trackers[i])])
-        #print(inspector.get_columns(trackers[i])[0]["name"])
 
     # Removing the user ID from the name of the table
     trackers = [name.split("_")[1] for name in trackers]
@@ -37,14 +34,19 @@ def view():
 @login_required
 def view2():
     tableSelection = request.form.get("tableSelect")
-    result = f"Looking for the table: {tableSelection}"
-    return result
+    return redirect(url_for("edit", tracker=tableSelection))
 
 
-@views.route('/OmniMake', methods=['GET', 'POST'])
+#@views.route("OmniEdit")
+#@login_required
+#def edit(tracker):
+
+
+
+@views.route("/OmniMake", methods=["GET", "POST"])
 @login_required
 def make():
-    if request.method == 'POST':
+    if request.method == "POST":
 
         # Getting all the user specified info from the user
         tName = request.form.get("tableName")
@@ -72,7 +74,7 @@ def make():
     return render_template("OmniMake.html")
 
 
-@views.route('/OmniCalendar')
+@views.route("/OmniCalendar")
 @login_required
 def calendar():
     return render_template("OmniCalendar.html")

@@ -1,0 +1,91 @@
+<!-- This is a website for testing a form setup -->
+<html>
+	<head>
+		<meta charset="utf-8">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		<title>OmniTracker</title>
+		<style>
+			.navbar {
+				background-color: #3d5a80;
+				border: 3px solid;
+				border-color: black;
+			}
+			li a {
+				font-family: 'Verdana';
+				font-size: 20px;
+				font-weight: bold;
+			  	color: #ee6c4d ;
+			}
+			.navbar-brand{
+				color: #ee6c4d ;
+				font-family: 'Verdana';
+				font-size: 20px;
+				font-weight: bold;
+			}
+			.navbar li a:hover {
+				background-color: #293241;
+				color: #ee6c4d ;
+			}
+		</style>
+	</head>
+
+	<body style="background-color: #D3D3D3;">
+
+		<!-- Top Navbar -->
+		<nav class="navbar navbar-static-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand"><img src="/static/images/OmniTracker.png" style="width: auto; height: 20px"></a>					
+				</div>
+				<ul class="nav navbar-nav">
+					<li><a href="/">Home</a></li>
+					<li><a href="OmniView">View Trackers</a></li>
+					<li><a class="active" href="OmniMake">Make Tracker</a></li>
+					<li><a href="OmniCalendar">Calendar</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					{% if current_user.is_authenticated %}
+					<li><a href="OmniLogout">Logout</a></li>
+					{% else %}
+					<li><a href="OmniLogin">Login</a></li>
+					<li><a href="OmniSignUp">Sign Up</a></li>
+					{% endif %}
+				</ul>
+			</div>
+		</nav>
+
+		<!-- Bottom Navbar -->
+		<nav class="navbar navbar-fixed-bottom">
+			<div class="container-fluid">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="OmniAbout">About Me</a></li>
+					<li><a href="https://github.com/AlexJButton/OmniTracker" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		
+		<!-- Content of the page -->
+		<div style="text-align:center; font-family: 'Verdana'; font-size: 16px; width: 66%; margin-left: auto; margin-right: auto; margin-top: 100px;color: white; background-color: #293241 ; padding: 15px; border-radius: 15px;">
+
+			<p><u>{{tName}}</u></p>
+			
+			<table class="editTable">
+				<tr>
+					{% for field in tableCols[i] %}
+						<th class="previewCell">{{ field }}</th>
+					{% endfor %}
+				</tr>
+				<tr>
+					{% for item in tableData%}  UNFINISHED
+				</tr>
+			</table>
+
+
+		</div>
+
+	</body>
+</html>
