@@ -55,7 +55,7 @@ def signup2():
     db.session.add(newUser)
     db.session.commit()
 
-    return redirect(url_for('auth.login'))
+    return redirect(url_for("auth.login"))
 
 
 @auth.route('/OmniLogout')

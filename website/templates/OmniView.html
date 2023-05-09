@@ -39,7 +39,7 @@
 				text-align: center;
 				padding: 10px;
 			}
-			table {
+			.displayTable {
 				width: 90%;
 				table-layout: fixed;
 				margin-left: auto; 
@@ -52,8 +52,29 @@
 				text-align: center;
 				padding: 10px;
 				border-collapse: collapse;
-				border: 1px #ee6c4d solid;
+				border: 1px solid rgba(0, 0, 0, .5);
 			}
+			.previewTable {
+				width: 90%;
+				margin-left: auto; 
+				margin-right: auto;
+				color: #ee6c4d;
+				table-layout: fixed;
+				border-collapse: collapse;
+				border: 1px solid rgba(0, 0, 0, .5);
+				text-align: center;
+			}
+			.previewCell {
+				color: #ee6c4d;
+				border-collapse: collapse;
+				border: 1px #ee6c4d solid;
+				text-align: center;
+				padding: 5px;
+			}
+			.mask1 {
+				-webkit-mask-image: linear-gradient(black, transparent);
+				mask-image: linear-gradient(black, transparent);
+			}	
 		</style>
 	</head>
 
@@ -104,18 +125,50 @@
 					<th></th>
 					<th></th>
 				</tr>
+				{% set i = 0 %}
 				{% for row in trackers|batch(3) %}
 					<tr>
 					{% for col in row %}
-						<td class="cell">{{ col }}</td>
+						<td class="cell" onclick="viewTable('{{col}}')">
+							{{ col }}
+							<br><br>
+							<div class="mask1">
+								<table class="previewTable">
+									<tr>
+										{% for field in tableCols[i] %}
+										<th class="previewCell">{{ field }}</th>
+										{% endfor %}
+									</tr>
+									<tr>
+										{% for field in tableCols[i] %}
+										<th class="previewCell">~~~~~</th>
+										{% endfor %}
+									</tr>
+								</table>
+							</div>
+						</td>
 					{% endfor %}
 					</tr>
 				{% endfor %}
 
 			</table>
+
+			<form action="{{ url_for('views.view') }}" method="post">
+				<input type="hidden" id="tableSelect" name="tableSelect" value="Null">
+				<button type="submit" style="display: none" id="hiddenSubmit">Hidden Submit</button>
+			</form>
 			
 
 		</div>
+
+		<script type="text/javascript">
+			function viewTable(selection) {
+				tableSelection = document.getElementById("tableSelect");
+				tableSelection.value = selection;
+
+				document.getElementById("hiddenSubmit").click();
+			}
+		</script>
 
 	</body>
 </html>

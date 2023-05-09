@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, Flask
+from flask import Blueprint, render_template, request, Flask, redirect, url_for
 from flask_login import login_required, current_user
 from sqlalchemy import MetaData, Table, Column, Integer, Text, inspect
 from . import db
@@ -14,14 +14,31 @@ def home():
 @login_required
 def view():
 
+    # Getting the titles for all the tables for the user
     uID = current_user.id
     inspector = inspect(db.engine)
     trackers = [name for name in inspector.get_table_names() if name.startswith(str(uID))]
 
-    print(uID)
-    print(trackers)
+    # Getting the columns of each table
+    metadata = db.metadata
+    #tables = [metadata.tables.get(table_name) for table_name in trackers]
+    tableCols = []
+    for i in range(len(trackers)):
+        tableCols.append([dict["name"] for dict in inspector.get_columns(trackers[i])])
+        #print(inspector.get_columns(trackers[i])[0]["name"])
 
-    return render_template("OmniView.html", trackers=trackers)
+    # Removing the user ID from the name of the table
+    trackers = [name.split("_")[1] for name in trackers]
+
+    return render_template("OmniView.html", trackers=trackers, tableCols=tableCols)
+
+
+@views.route("/OmniView", methods=["POST"])
+@login_required
+def view2():
+    tableSelection = request.form.get("tableSelect")
+    result = f"Looking for the table: {tableSelection}"
+    return result
 
 
 @views.route('/OmniMake', methods=['GET', 'POST'])
@@ -41,6 +58,7 @@ def make():
         uID = current_user.id  # Getting the user id and adding it to the table name for later retrieval uses
         tNameUID = f"{uID}_{tName}"
 
+        # Creating the table with the name, a primary key, and the requested fields
         metadata = MetaData()
         tableData = Table(tNameUID, metadata,
                           Column("id", Integer, primary_key=True),
@@ -48,7 +66,7 @@ def make():
 
         metadata.create_all(db.engine)
 
-        return "Success?"
+        return redirect(url_for("views.view"))
 
 
     return render_template("OmniMake.html")
