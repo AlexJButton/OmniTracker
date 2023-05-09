@@ -8,6 +8,20 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		<title>OmniTracker</title>
 		<style>
+			.mainDiv {
+				text-align:center; 
+				font-family: 'Verdana'; 
+				font-size: 16px; 
+				width: 66%; 
+				margin-left: auto; 
+				margin-right: auto; 
+				margin-top: 100px; 
+				color: white; 
+				background-color: #293241 ; 
+				padding: 15px; 
+				border-radius: 15px; 
+				color: #ee6c4d;
+			}
 			.navbar {
 				background-color: #3d5a80;
 				border: 3px solid;
@@ -52,7 +66,6 @@
 				text-align: center;
 				padding: 10px;
 				border-collapse: collapse;
-				border: 1px solid rgba(0, 0, 0, .5);
 			}
 			.previewTable {
 				width: 90%;
@@ -60,7 +73,6 @@
 				margin-right: auto;
 				color: #ee6c4d;
 				border-collapse: collapse;
-				border: 1px solid rgba(0, 0, 0, .5);
 				text-align: center;
 			}
 			.previewCell {
@@ -73,7 +85,20 @@
 			.mask1 {
 				-webkit-mask-image: linear-gradient(black, transparent);
 				mask-image: linear-gradient(black, transparent);
-			}	
+			}
+			a.tableItem {
+				padding: 5px;
+				border-radius: 10px;
+				display: block;
+				color: inherit;
+				text-decoration: inherit;
+			}
+			a.tableItem:hover {
+				background-color: #343F51;
+				display: block;
+				color: inherit;
+				text-decoration: inherit;
+			}
 		</style>
 	</head>
 
@@ -114,7 +139,7 @@
 
 		
 		<!-- Content of the paage -->
-		<div style="text-align:center; font-family: 'Verdana'; font-size: 16px; width: 66%; margin-left: auto; margin-right: auto; margin-top: 100px;color: white; background-color: #293241 ; padding: 15px; border-radius: 15px; color: #ee6c4d;">
+		<div class="mainDiv">
 
 			<p><u>Your Trackers</u></p>
 
@@ -128,23 +153,25 @@
 				{% for row in trackers|batch(3) %}
 					<tr>
 					{% for col in row %}
-						<td class="cell" onclick="viewTable('{{col}}')">
-							{{ col }}
-							<br><br>
-							<div class="mask1">
-								<table class="previewTable">
-									<tr>
-										{% for field in tableCols[i.value] %}
-										<th class="previewCell">{{ field }}</th>
-										{% endfor %}
-									</tr>
-									<tr>
-										{% for field in tableCols[i.value] %}
-										<th class="previewCell">~~~~~</th>
-										{% endfor %}
-									</tr>
-								</table>
-							</div>
+						<td class="cell">
+							<a href="/OmniEdit/{{col}}" class="tableItem">
+								{{ col }}
+								<br><br>
+								<div class="mask1">
+									<table class="previewTable">
+										<tr>
+											{% for field in tableCols[i.value] %}
+											<th class="previewCell">{{ field }}</th>
+											{% endfor %}
+										</tr>
+										<tr>
+											{% for field in tableCols[i.value] %}
+											<th class="previewCell">~~~</th>
+											{% endfor %}
+										</tr>
+									</table>
+								</div>
+							</a>
 						</td>
 						{% set i.value = i.value + 1 %}
 					{% endfor %}

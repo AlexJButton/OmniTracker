@@ -30,11 +30,19 @@ def view():
     return render_template("OmniView.html", trackers=trackers, tableCols=tableCols)
 
 
-@views.route("/OmniView", methods=["POST"])
+@views.route("/OmniEdit/<tracker>")
 @login_required
-def view2():
-    tableSelection = request.form.get("tableSelect")
-    return redirect(url_for("edit", tracker=tableSelection))
+def edit(tracker):
+
+    # Getting the columns of the specified table
+    engine = db.engine()
+    uID = current_user.id
+    tableName = f"{uID}_{tracker}"
+    with engine.connect() as connection:
+        tableCols = connection.execute(f"SELECT name FROM sys.columns WHERE object_id = OBJECT_ID('{tableName}')")
+        tableRows = connection.execute(f"SELECT * FROM {tableName}")
+
+    return render_template("OmniEdit", tName=tracker, tableCols=tableCols, tableRows=tableRows)
 
 
 #@views.route("OmniEdit")

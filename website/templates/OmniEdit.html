@@ -8,6 +8,20 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		<title>OmniTracker</title>
 		<style>
+			.mainDiv {
+				text-align:center; 
+				font-family: 'Verdana'; 
+				font-size: 16px; 
+				width: 66%; 
+				margin-left: auto; 
+				margin-right: auto; 
+				margin-top: 100px; 
+				color: white; 
+				background-color: #293241 ; 
+				padding: 15px; 
+				border-radius: 15px; 
+				color: #ee6c4d;
+			}
 			.navbar {
 				background-color: #3d5a80;
 				border: 3px solid;
@@ -69,19 +83,23 @@
 
 		
 		<!-- Content of the page -->
-		<div style="text-align:center; font-family: 'Verdana'; font-size: 16px; width: 66%; margin-left: auto; margin-right: auto; margin-top: 100px;color: white; background-color: #293241 ; padding: 15px; border-radius: 15px;">
+		<div class="mainDiv">
 
-			<p><u>{{tName}}</u></p>
+			<p><u>{{ tName }}</u></p>
 			
 			<table class="editTable">
 				<tr>
-					{% for field in tableCols[i] %}
+					{% for field in tableCols %}
 						<th class="previewCell">{{ field }}</th>
 					{% endfor %}
 				</tr>
-				<tr>
-					{% for item in tableData%}  UNFINISHED
-				</tr>
+				{% for row in tableRows %}
+					<tr>
+						{% for item in row %}
+							<td>{{ item }}</td>
+						{% endfor %}
+					</tr>
+				{% endfor %}
 			</table>
 
 
