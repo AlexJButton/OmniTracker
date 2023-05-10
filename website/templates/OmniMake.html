@@ -90,6 +90,14 @@
 				border-top: 1px solid #ccc;
 				border-bottom: 1px solid #ccc;
 			}
+			.submitBtn {
+				height: 50px; 
+				width: 100px; 
+				font-size: 20px; 
+				margin-left: auto; 
+				margin-right: auto; 
+				margin-top: 30px;
+			}
 		</style>
 	</head>
 
@@ -190,7 +198,7 @@
 				</div>
 
 				<div class="text-center">
-					<button type="submit" class="btn btn-primary" style="height: 50px; width: 100px; font-size: 20px; margin-left: auto; margin-right: auto; margin-top: 30px;">Submit</button>
+					<button type="submit" class="btn btn-primary submitBtn" >Submit</button>
 				</div>
 			</form>
 		</div>
@@ -300,6 +308,7 @@
 				// Now to lower all the remaining fields after it by 1 to keep the count correct
 				if (num < len) {
 
+					// For every row after the one deleted
 					for (i = parseInt(num)+1; i <= len; i++) {
 
 						const label = document.getElementById(String("label"+i));

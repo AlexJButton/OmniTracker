@@ -65,7 +65,11 @@ def edit(tracker):
 @views.route("/OmniEdit/<tracker>", methods=["POST"])
 @login_required
 def edit2(tracker):
-    return "Success " + tracker
+
+    numRows = request.form.get("rowCount")
+
+
+    return "Success " + tracker + ", numRows: " + numRows
 
 
 @views.route("/OmniMake", methods=["GET", "POST"])

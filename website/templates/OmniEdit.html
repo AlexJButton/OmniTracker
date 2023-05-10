@@ -88,6 +88,14 @@
 				padding: 5px;
 				color: #ee6c4d;
 			}
+			.submitBtn {
+				height: 50px; 
+				width: 100px; 
+				font-size: 20px; 
+				margin-left: auto; 
+				margin-right: auto; 
+				margin-top: 30px;
+			}
 		</style>
 	</head>
 
@@ -157,11 +165,11 @@
 							<tr>
 								{% for item in row %}
 									{% if tableTypes[loop.index0] == 1 %}
-										<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}{{i.value}}" value="{{item}}"></td>
+										<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}{{i.value}}" value="{{item}}" onkeyup="checkSubmit()"></td>
 									{% elif tableTypes[loop.index0] == 0 %}
-										<td class="cell"><input type="number" id="{{tableCols[loop.index0]}}{{i.value}}" value="{{item}}"></td>
+										<td class="cell"><input type="number" id="{{tableCols[loop.index0]}}{{i.value}}" value="{{item}}" onkeyup="checkSubmit()"></td>
 									{% else %}
-										<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}{{i.value}}" value="ERROR UKNOWN TYPE"></td>
+										<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}{{i.value}}" value="ERROR UKNOWN TYPE" onkeyup="checkSubmit()"></td>
 									{% endif %}
 								{% endfor %}
 								{% if loop.index0 > 0 %}
@@ -179,7 +187,7 @@
 
 				<input type="hidden" id="rowCount" name="rowCount" value="{{tableRows|length}}">
 				<div class="text-center">
-					<button type="submit" class="btn btn-primary" style="height: 50px; width: 100px; font-size: 20px; margin-left: auto; margin-right: auto; margin-top: 30px;">Submit</button>
+					<button type="submit" id="submitBtn" class="btn btn-primary submitBtn">Submit</button>
 				</div>
 
 			</form>
@@ -189,6 +197,26 @@
 		<br><br><br><br><br><br><br><br>
 
 		<script type="text/javascript">
+			function checkSubmit() {
+				var allInput = document.getElementsByTagName("input");
+				var filled = true;
+
+				for (var i = 0; i < allInput.length; i++) {
+					var input = allInput[i];
+					if (input.value.trim() == "" || input.value == null) {
+						var filled = false;
+						break;
+					}
+				}
+
+				if (filled) {
+					document.getElementById("submitBtn").removeAttribute("disabled");
+				}
+				else {
+					document.getElementById("submitBtn").setAttribute("disabled", true);
+				}
+			}
+
 			function appendRow() {
 				// Getting the table and information about the current generated size of it
 				var table = document.getElementById("editTable");
@@ -212,17 +240,19 @@
 					input.type = typing;
 					input.id = cName+String(num);
 					if (typing == "text") {
-						input.value = " ";
+						//input.value = " ";
 					}
 					else if (typing == "number") {
-						input.value = 0;
+						//input.value = 0;
 					}
 					else {
-						input.value = "ERROR ASSIGNING VALUE IN JS";
+						//input.value = "ERROR ASSIGNING VALUE IN JS";
 					}
 					var newCell = newRow.insertCell();
 					newCell.className = "cell"
 					newCell.innerHTML = input.outerHTML;
+					var input = document.getElementById(cName+String(num));
+					input.addEventListener("keyup", checkSubmit)
 				}
 
 				// Adding the delete button cell for the row
@@ -234,7 +264,15 @@
 				newCell.className = "delCell";
 				newCell.innerHTML = imgInput.outerHTML;
 				delbtn = document.getElementById("deleteBtn"+num);
-				delbtn.addEventListener("click", deleteDataRow);	
+				delbtn.addEventListener("click", deleteDataRow);
+
+				// Incrementing the inivisble field counter used in the python code
+				var rowCount = document.getElementById("rowCount");
+				var val = parseInt(rowCount.value) || 0;
+				rowCount.value = val + 1;
+
+				// Calling the checkSubmit function to disable the submit button as the user just added empty fields
+				checkSubmit();
 			}
 
 			function deleteDataRow(event) {
@@ -281,6 +319,13 @@
 					}
 				}
 
+				// Decrementing the inivisble field counter used in the python code
+				var rowCount = document.getElementById("rowCount");
+				var val = parseInt(rowCount.value) || 0;
+				rowCount.value = val -1;
+
+				// Calling the checkSubmit function as there could be empty fields
+				checkSubmit();
 			}
 
 		</script>
