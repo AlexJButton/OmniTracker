@@ -22,6 +22,12 @@
 				border-radius: 15px; 
 				color: #ee6c4d;
 			}
+			.scrollDiv {
+				width: 90%;
+				margin-left: auto;
+				margin-right: auto;
+				overflow-x: auto;
+			}
 			.navbar {
 				background-color: #3d5a80;
 				border: 3px solid;
@@ -43,13 +49,38 @@
 				background-color: #293241;
 				color: #ee6c4d ;
 			}
-			.editTable {
-				width: 90%;
-				table-layout: fixed;
-				margin-left: auto; 
-				margin-right: auto; 
+			table {
+				width: auto%;
+				margin-left: auto;
+				margin-right: auto;
+				border-collapse: collapse;
+				color: black;
+			}
+			tr:first-child th {
+				border-top: none;
+			}
+
+			tr:last-child td {
+				border-bottom: none;
+			}
+			.cell {
+				width: auto;
 				text-align: center;
-				color: #ee6c4d;
+				padding: 5px;
+				border-top: 1px solid #ccc;
+				border-bottom: 1px solid #ccc;
+			}
+			.delCell {
+				width: 30px;
+				text-align: center;
+				padding: 5px;
+				border-top: 1px solid #ccc;
+				border-bottom: 1px solid #ccc;
+			}
+			img {
+				width: 20px;
+				height: 20px;
+				vertical-align: middle;
 			}
 		</style>
 	</head>
@@ -94,25 +125,31 @@
 		<div class="mainDiv">
 
 			<p><u>{{ tName }}</u></p>
-			
-			<table class="editTable">
-				<tr>
-					{% for field in tableCols %}
-						<th class="previewCell">{{ field }}</th>
-					{% endfor %}
-					<th></th>
-				</tr>
-				{% set i = namespace(value=0) %}
-				{% for row in tableRows %}
+
+			<div class="scrollDiv">
+				<table class="editTable">
 					<tr>
-						{% for item in row %}
-							<td>{{ item }}</td>
+						{% for field in tableCols %}
+							<th class="cell" style="color: #ee6c4d;">{{ field }}</th>
 						{% endfor %}
-						<td><img title="Delete Field" src="/static/images/delete.png" id="deleteBtn{{i.value}}" onclick="deleteBtn()"></img></td>
+						<th class="delCell"></th>
 					</tr>
-					{% set i.value = i.value + 1 %}
-				{% endfor %}
-			</table>
+					{% set i = namespace(value=1) %}
+					{% for row in tableRows %}
+						<tr>
+							{% for item in row %}
+								<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}_{{i.value}}" value="{{item}}"></td>
+							{% endfor %}
+							<td class="delCell"><img title="Delete Field" src="/static/images/delete.png" id="deleteBtn{{i.value}}" onclick="deleteBtn()"></img></td>
+						</tr>
+						{% set i.value = i.value + 1 %}
+					{% endfor %}
+				</table>
+
+				<br><br>
+			</div>
+			
+			
 
 
 		</div>

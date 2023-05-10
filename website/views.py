@@ -22,7 +22,7 @@ def view():
     # Getting the columns of each table
     tableCols = []
     for i in range(len(trackers)):
-        tableCols.append([dict["name"] for dict in inspector.get_columns(trackers[i])])
+        tableCols.append([dict["name"] for dict in inspector.get_columns(trackers[i]) if not dict["name"]=="id"])
 
     # Removing the user ID from the name of the table
     trackers = [name.split("_")[1] for name in trackers]
@@ -39,8 +39,10 @@ def edit(tracker):
     inspector = inspect(engine)
     tableName = f"{current_user.id}_{tracker}"
     with engine.connect() as connection:
-        tableCols = [dict["name"] for dict in inspector.get_columns(tableName)]
+        tableCols = [dict["name"] for dict in inspector.get_columns(tableName) if not dict["name"]=="id"]
         tableRows = connection.execute(text(f"SELECT * FROM '{tableName}'"))
+        tableRows = [row[1:] for row in tableRows]
+        #print([dict["name"] for dict in inspector.get_columns(tableName) if not dict["name"]=="id"])
 
     return render_template("OmniEdit.html", tName=tracker, tableCols=tableCols, tableRows=tableRows)
 
