@@ -283,7 +283,6 @@
 				var input = document.getElementById(String(num+"name"));
 				var select = document.getElementById(String(num));
 				var imgInput = document.getElementById(String("deleteBtn"+num));
-				var br = document.getElementById(String("br"+num));
 
 				// Deleting the field
 				if (label) { // Error checking for if it actually exists
@@ -300,10 +299,8 @@
 
 				// Now to lower all the remaining fields after it by 1 to keep the count correct
 				if (num < len) {
-					var start = parseInt(num)+1;
-					var end = len;
 
-					for (i = start; i <= end; i++) {
+					for (i = parseInt(num)+1; i <= len; i++) {
 
 						const label = document.getElementById(String("label"+i));
 						const input = document.getElementById(String(i+"name"));

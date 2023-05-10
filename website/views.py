@@ -6,7 +6,6 @@ from . import db
 views = Blueprint("views", __name__)
 
 
-
 @views.route("/")
 def home():
     return render_template("OmniHome.html")
@@ -63,10 +62,10 @@ def edit(tracker):
     return render_template("OmniEdit.html", tName=tracker, tableCols=tableCols, tableRows=tableRows, tableTypes=tableTypes)
 
 
-#@views.route("OmniEdit")
-#@login_required
-#def edit(tracker):
-
+@views.route("/OmniEdit/<tracker>", methods=["POST"])
+@login_required
+def edit2(tracker):
+    return "Success " + tracker
 
 
 @views.route("/OmniMake", methods=["GET", "POST"])

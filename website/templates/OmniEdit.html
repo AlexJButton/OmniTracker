@@ -48,10 +48,10 @@
 			}
 			.navbar li a:hover {
 				background-color: #293241;
-				color: #ee6c4d ;
+				color: #ee6c4d;
 			}
 			table {
-				width: auto%;
+				width: auto;
 				margin-left: auto;
 				margin-right: auto;
 				border-collapse: collapse;
@@ -82,6 +82,11 @@
 				width: 20px;
 				height: 20px;
 				vertical-align: middle;
+			}
+			.cell2 {
+				text-align: center;
+				padding: 5px;
+				color: #ee6c4d;
 			}
 		</style>
 	</head>
@@ -125,47 +130,63 @@
 		<!-- Content of the page -->
 		<div class="mainDiv">
 
-			<p><u>{{ tName }}</u></p>
+			<table style="width: 50%;">
+				<tr>
+					<th class="cell2">Table Name:</th>
+					<th class="cell2">Click to add a row</th>
+				</tr>
+				<tr>
+					<td class="cell2">{{ tName }}</td>
+					<td class="cell2"><button type="button" class="btn btn-secondary" onclick="appendRow()" style="color: black;">Add Row</button></td>
+				</tr>
+			</table>
 
-			<div class="scrollDiv">
-				<table id="editTable" class="editTable">
-					<tr>
-						{% for field in tableCols %}
-							<th class="cell" style="color: #ee6c4d;" id="header{{loop.index0}}">{{ field }}</th>
-						{% endfor %}
-						<th class="delCell"></th>
-					</tr>
-					{% set i = namespace(value=1) %}
-					{% for row in tableRows %}
+			<br><br>
+			<form class="form-inline" action="{{ url_for('views.edit', tracker=tName) }}" method="post">
+
+				<div class="scrollDiv">
+					<table id="editTable" class="editTable">
 						<tr>
-							{% for item in row %}
-								{% if tableTypes[loop.index0] == 1 %}
-									<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}_{{i.value}}" value="{{item}}"></td>
-								{% elif tableTypes[loop.index0] == 0 %}
-									<td class="cell"><input type="number" id="{{tableCols[loop.index0]}}_{{i.value}}" value="{{item}}"></td>
-								{% else %}
-									<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}_{{i.value}}" value="ERROR UKNOWN TYPE"></td>
-								{% endif %}
+							{% for field in tableCols %}
+								<th class="cell" style="color: #ee6c4d;" id="header{{loop.index0}}" name="{{field}}">{{ field }}</th>
 							{% endfor %}
-							<td class="delCell"><img title="Delete Field" src="/static/images/delete.png" id="deleteBtn{{i.value}}" onclick="deleteRow()"></img></td>
+							<th class="delCell" id="header{{tableCols|length}}" name="deleteBtn"></th>
 						</tr>
-						{% set i.value = i.value + 1 %}
-					{% endfor %}
-				</table>
+						{% set i = namespace(value=1) %}
+						{% for row in tableRows %}
+							<tr>
+								{% for item in row %}
+									{% if tableTypes[loop.index0] == 1 %}
+										<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}{{i.value}}" value="{{item}}"></td>
+									{% elif tableTypes[loop.index0] == 0 %}
+										<td class="cell"><input type="number" id="{{tableCols[loop.index0]}}{{i.value}}" value="{{item}}"></td>
+									{% else %}
+										<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}{{i.value}}" value="ERROR UKNOWN TYPE"></td>
+									{% endif %}
+								{% endfor %}
+								{% if loop.index0 > 0 %}
+									<td class="delCell"><img title="Delete Field" src="/static/images/delete.png" id="deleteBtn{{i.value}}" onclick="deleteDataRow(event)"></img></td>
+								{% else %}
+									<td class="delCell"></td>
+								{% endif %}
+							</tr>
+							{% set i.value = i.value + 1 %}
+						{% endfor %}
+					</table>
 
-				<br>
-
-				<div>
-					<button type="button" class="btn btn-secondary" onclick="appendRow()" style="color: black;">Add Row</button>
+					<br><br>
 				</div>
 
-				<br><br>
-			</div>
-			
-			
+				<input type="hidden" id="rowCount" name="rowCount" value="{{tableRows|length}}">
+				<div class="text-center">
+					<button type="submit" class="btn btn-primary" style="height: 50px; width: 100px; font-size: 20px; margin-left: auto; margin-right: auto; margin-top: 30px;">Submit</button>
+				</div>
 
+			</form>
 
 		</div>
+
+		<br><br><br><br><br><br><br><br>
 
 		<script type="text/javascript">
 			function appendRow() {
@@ -178,18 +199,18 @@
 				// Creating the row and cells of the table
 				var newRow = table.insertRow();
 				for (var i = 0; i < (numCols-1); i++) {
-					// This gets the name of the column which is used in the id of each value in a column
+					// This gets the name of the column which is used in the ID of each value in a column
 					header = document.getElementById("header"+String(i));
-					cName = header.textContent;
+					cName = header.getAttribute("name");
 
 					// Now getting the input type of the cell above
-					previousInput = document.getElementById(cName+"_"+String(num-1));
+					previousInput = document.getElementById(cName+String(num-1));
 					typing = previousInput.getAttribute("type");
 
 					// Now making the new input with the type and putting it into a new cell
 					var input = document.createElement("input");
 					input.type = typing;
-					input.id = cName+"_"+String(num);
+					input.id = cName+String(num);
 					if (typing == "text") {
 						input.value = " ";
 					}
@@ -213,13 +234,53 @@
 				newCell.className = "delCell";
 				newCell.innerHTML = imgInput.outerHTML;
 				delbtn = document.getElementById("deleteBtn"+num);
-				delbtn.addEventListener("click", deleteRow);	
+				delbtn.addEventListener("click", deleteDataRow);	
 			}
 
-			function deleteRow(event) {
-				console.log("Too be finished")
-				var num = event.target.id;
-				console.log(num)
+			function deleteDataRow(event) {
+				// Getting the row number of the pressed button
+				var pos = event.target.id.replace(/\D/g, "");	
+
+				// Getting the table and row information
+				var table = document.getElementById("editTable");
+				var num = table.rows.length;
+				var relRol = table.rows[pos];
+				var numCols = relRol.cells.length;
+
+				// Deleting all the elements in the row
+				for (var i = 0; i < numCols; i++) {
+					// This gets the name of the column which is used in the ID of each value in a column
+					header = document.getElementById("header"+String(i));
+					cName = header.getAttribute("name");
+
+					var element = document.getElementById(cName+String(pos));
+					element.remove();
+				}
+				table.deleteRow(pos);
+
+				// Next is to, if the deleted now was not the last, decrement everything after by one
+				if (pos < (num-1)) {
+
+					// For every row after the one deleted
+					for (var i = parseInt(pos)+1; i <= (num-1); i++) {
+						// For every cell
+						for (var j = 0; j < numCols; j++) {
+							// This gets the name of the column which is used in the ID of each value in a column
+							header = document.getElementById("header"+String(j));
+							cName = header.getAttribute("name");
+
+							// Getting the element in the cell and lowering its ID 
+							var element = document.getElementById(cName+String(i));
+							if (element) {
+								element.id = cName + String(i-1);
+							}
+							else {
+								console.warn("element of ID: " + String(cName) + String(i-1) + " does not exist")
+							}
+						}
+					}
+				}
+
 			}
 
 		</script>
