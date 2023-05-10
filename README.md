@@ -4,7 +4,7 @@ A website that allows you to track everything!
 Made by: Alexander Button
 
 ## TODO (In no particular order):
-- Finish OmniEdit page functionality (front and back end)
+- Finish OmniEdit page functionality (back end)
 - Add support for other field types like date and time
 - Add light/dark mode switching
 - Make about me page
