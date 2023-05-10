@@ -5,6 +5,8 @@ from . import db
 
 views = Blueprint("views", __name__)
 
+
+
 @views.route("/")
 def home():
     return render_template("OmniHome.html")
@@ -30,6 +32,12 @@ def view():
     return render_template("OmniView.html", trackers=trackers, tableCols=tableCols)
 
 
+@views.route("/OmniEdit")
+@login_required
+def editBase():
+    return redirect(url_for("views.view"))
+
+
 @views.route("/OmniEdit/<tracker>")
 @login_required
 def edit(tracker):
@@ -39,12 +47,20 @@ def edit(tracker):
     inspector = inspect(engine)
     tableName = f"{current_user.id}_{tracker}"
     with engine.connect() as connection:
+        # Getting the column names of the table and the rows of information in the table
         tableCols = [dict["name"] for dict in inspector.get_columns(tableName) if not dict["name"]=="id"]
         tableRows = connection.execute(text(f"SELECT * FROM '{tableName}'"))
         tableRows = [row[1:] for row in tableRows]
-        #print([dict["name"] for dict in inspector.get_columns(tableName) if not dict["name"]=="id"])
 
-    return render_template("OmniEdit.html", tName=tracker, tableCols=tableCols, tableRows=tableRows)
+        # Getting the types of values in the table, and turning it to 0 & 1 for Jinja use
+        tableTypes = [dict["type"] for dict in inspector.get_columns(tableName) if not dict["name"] == "id"]
+        tableTypes = [0 if isinstance(col, Integer) else 1 if isinstance(col, Text) else -1 for col in tableTypes]
+
+    # If the table is empty, like a newly made table, then fill it with default values
+    if tableRows == []:
+        tableRows = [["Empty" if col == 1 else 0 if col == 0 else "ERROR" for col in tableTypes]]
+
+    return render_template("OmniEdit.html", tName=tracker, tableCols=tableCols, tableRows=tableRows, tableTypes=tableTypes)
 
 
 #@views.route("OmniEdit")

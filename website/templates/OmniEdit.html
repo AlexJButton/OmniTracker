@@ -7,6 +7,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		<title>OmniTracker</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='/images/favicon.ico') }}">
 		<style>
 			.mainDiv {
 				text-align:center; 
@@ -127,10 +128,10 @@
 			<p><u>{{ tName }}</u></p>
 
 			<div class="scrollDiv">
-				<table class="editTable">
+				<table id="editTable" class="editTable">
 					<tr>
 						{% for field in tableCols %}
-							<th class="cell" style="color: #ee6c4d;">{{ field }}</th>
+							<th class="cell" style="color: #ee6c4d;" id="header{{loop.index0}}">{{ field }}</th>
 						{% endfor %}
 						<th class="delCell"></th>
 					</tr>
@@ -138,13 +139,25 @@
 					{% for row in tableRows %}
 						<tr>
 							{% for item in row %}
-								<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}_{{i.value}}" value="{{item}}"></td>
+								{% if tableTypes[loop.index0] == 1 %}
+									<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}_{{i.value}}" value="{{item}}"></td>
+								{% elif tableTypes[loop.index0] == 0 %}
+									<td class="cell"><input type="number" id="{{tableCols[loop.index0]}}_{{i.value}}" value="{{item}}"></td>
+								{% else %}
+									<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}_{{i.value}}" value="ERROR UKNOWN TYPE"></td>
+								{% endif %}
 							{% endfor %}
-							<td class="delCell"><img title="Delete Field" src="/static/images/delete.png" id="deleteBtn{{i.value}}" onclick="deleteBtn()"></img></td>
+							<td class="delCell"><img title="Delete Field" src="/static/images/delete.png" id="deleteBtn{{i.value}}" onclick="deleteRow()"></img></td>
 						</tr>
 						{% set i.value = i.value + 1 %}
 					{% endfor %}
 				</table>
+
+				<br>
+
+				<div>
+					<button type="button" class="btn btn-secondary" onclick="appendRow()" style="color: black;">Add Row</button>
+				</div>
 
 				<br><br>
 			</div>
@@ -153,6 +166,63 @@
 
 
 		</div>
+
+		<script type="text/javascript">
+			function appendRow() {
+				// Getting the table and information about the current generated size of it
+				var table = document.getElementById("editTable");
+				var num = table.rows.length;
+				var lastRow = table.rows[num-1];
+				var numCols = lastRow.cells.length;
+
+				// Creating the row and cells of the table
+				var newRow = table.insertRow();
+				for (var i = 0; i < (numCols-1); i++) {
+					// This gets the name of the column which is used in the id of each value in a column
+					header = document.getElementById("header"+String(i));
+					cName = header.textContent;
+
+					// Now getting the input type of the cell above
+					previousInput = document.getElementById(cName+"_"+String(num-1));
+					typing = previousInput.getAttribute("type");
+
+					// Now making the new input with the type and putting it into a new cell
+					var input = document.createElement("input");
+					input.type = typing;
+					input.id = cName+"_"+String(num);
+					if (typing == "text") {
+						input.value = " ";
+					}
+					else if (typing == "number") {
+						input.value = 0;
+					}
+					else {
+						input.value = "ERROR ASSIGNING VALUE IN JS";
+					}
+					var newCell = newRow.insertCell();
+					newCell.className = "cell"
+					newCell.innerHTML = input.outerHTML;
+				}
+
+				// Adding the delete button cell for the row
+				var imgInput = document.createElement("img");
+				imgInput.title = "Delete Row";
+				imgInput.src="/static/images/delete.png";
+				imgInput.id = "deleteBtn"+num;
+				var newCell = newRow.insertCell();
+				newCell.className = "delCell";
+				newCell.innerHTML = imgInput.outerHTML;
+				delbtn = document.getElementById("deleteBtn"+num);
+				delbtn.addEventListener("click", deleteRow);	
+			}
+
+			function deleteRow(event) {
+				console.log("Too be finished")
+				var num = event.target.id;
+				console.log(num)
+			}
+
+		</script>
 
 	</body>
 </html>

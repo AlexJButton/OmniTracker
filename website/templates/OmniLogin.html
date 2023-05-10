@@ -7,6 +7,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		<title>OmniTracker</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='/images/favicon.ico') }}">
 		<style>
 			.mainDiv {
 				text-align:center; 
@@ -60,7 +61,7 @@
 				text-align: center;
 			}
 			.left {
-				color: white;
+				color: black;
 				text-align: left;
 				padding: 10px;
 			}
@@ -153,7 +154,7 @@
 							</tr>
 							<tr>
 								<td class="left">
-									<label type="label" id="remCheck" class="control-label" for="remember">Remember me:</label>
+									<label type="label" id="remCheck" class="control-label" for="remember" style="color: white;">Remember me:</label>
 									<input type="checkbox" name="remember", id="remember">
 								</td>
 								<td class="right">

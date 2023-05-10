@@ -7,6 +7,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		<title>OmniTracker</title>
+		<link rel="shortcut icon" href="{{ url_for('static', filename='/images/favicon.ico') }}">
 		<style>
 			.mainDiv {
 				text-align:center; 
@@ -253,7 +254,6 @@
 				imgInput.title = "Delete Field";
 				imgInput.src="/static/images/delete.png";
 				imgInput.id = "deleteBtn"+num;
-				imgInput.addEventListener("click", deleteField);
 
 				// Combining the delete button and field type selector so they can be added to the table cell
 				var div = document.createElement("div");
@@ -315,8 +315,8 @@
 
 							// Changing label id and text
 							label.id = "label" + (i-1);
-							var word = getOrdinal(i);
-							label.textContent = word + " Field Type"
+							var word = getOrdinal(i-1);
+							label.textContent = word + " Field"
 
 							// Changing input id & name
 							input.id = String((i-1)+"name");
