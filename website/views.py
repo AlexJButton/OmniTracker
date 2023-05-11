@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, Flask, redirect, url_for
 from flask_login import login_required, current_user
-from sqlalchemy import MetaData, Table, Column, Integer, Text, inspect, text
+from sqlalchemy import MetaData, Table, Column, Integer, Text, inspect, text, create_engine
 from . import db
 
 views = Blueprint("views", __name__)
@@ -52,12 +52,17 @@ def edit(tracker):
         tableRows = [row[1:] for row in tableRows]
 
         # Getting the types of values in the table, and turning it to 0 & 1 for Jinja use
-        tableTypes = [dict["type"] for dict in inspector.get_columns(tableName) if not dict["name"] == "id"]
+        tableTypes = [dict["type"] for dict in inspector.get_columns(tableName) if not dict["name"] == "id" or dict["name"] == "ID"]
         tableTypes = [0 if isinstance(col, Integer) else 1 if isinstance(col, Text) else -1 for col in tableTypes]
 
     # If the table is empty, like a newly made table, then fill it with default values
     if tableRows == []:
         tableRows = [["Empty" if col == 1 else 0 if col == 0 else "ERROR" for col in tableTypes]]
+
+    print("tName:", tracker)
+    print("tableCols:", tableCols)
+    print("tableRows:", tableRows)
+    print("tableTypes:", tableTypes)
 
     return render_template("OmniEdit.html", tName=tracker, tableCols=tableCols, tableRows=tableRows, tableTypes=tableTypes)
 
@@ -65,6 +70,16 @@ def edit(tracker):
 @views.route("/OmniEdit/<tracker>", methods=["POST"])
 @login_required
 def edit2(tracker):
+
+    # Check if the user clicked the delete btn and if so drop the table
+    if request.form.get("deleteCheck").lower() == "y":
+        engine = db.engine
+        tableName = f"{current_user.id}_{tracker}"
+        with engine.connect() as connection:
+            connection.execute(text(f"DROP TABLE '{tableName}'"))
+            connection.commit()
+
+        return redirect(url_for("views.view"))
 
     # Getting the column names of the table
     engine = db.engine
@@ -78,15 +93,30 @@ def edit2(tracker):
 
     # Getting the rows of data from the table
     tableData = []
-    tableID = []
     for i in range(1, numRows+1):
         tableData.append([request.form.get(col+str(i)) for col in tableCols])
-        tableID.append([col + str(i) for col in tableCols])
-    print(tableData)
-    print(tableID)
+
+    # To put this data in the db table the approach to delete everything and add what the user saved
+    with engine.connect() as connection:
+        # Deleting the rows in the database table
+        connection.execute(text(f"DELETE FROM '{tableName}'"))
+        connection.commit()
+        # clearVac()
+
+        # Adding all the rows from the html page into the table
+        for row in tableData:
+            values = ", ".join(["'" + val + "'" for val in row])
+            columns = ", ".join(["'" + col + "'" for col in tableCols])
+            connection.execute(text(f"INSERT INTO '{tableName}' ({columns}) VALUES ({values})"))
+            connection.commit()
+            print(f"INSERT INTO '{tableName}' ({columns}) VALUES ({values})")
+
+    connection.commit()
+    connection.close()
 
 
-    return "Testing"
+
+    return redirect(url_for("views.edit", tracker=tracker))
 
 
 @views.route("/OmniMake", methods=["GET", "POST"])
@@ -114,7 +144,7 @@ def make():
 
         metadata.create_all(db.engine)
 
-        return redirect(url_for("views.view"))
+        return redirect(url_for("views.edit", tracker=tName))
 
 
     return render_template("OmniMake.html")
@@ -124,6 +154,11 @@ def make():
 @login_required
 def calendar():
     return render_template("OmniCalendar.html")
+
+
+@views.route("/OmniAbout")
+def about():
+    return render_template("OmniAbout.html")
 
 
 def colType(col):
@@ -136,3 +171,12 @@ def colType(col):
     else:
         print(col, "is returning base case")
         return Text()
+
+
+def clearVac():
+    vacEngine = db.engine
+    with vacEngine.connect() as vacCon:
+        vacCon = vacCon.execution_options(isolation_level="AUTOCOMMIT")
+        vacCon.execute(text("VACUUM"))
+    vacCon.commit()
+    vacCon.close()

@@ -21,7 +21,7 @@
 				background-color: #293241 ; 
 				padding: 15px; 
 				border-radius: 15px; 
-				color: #D3D3D3;
+				color: #ee6c4d;
 			}
 			.navbar {
 				background-color: #343F51;
@@ -41,76 +41,44 @@
 				font-weight: bold;
 			}
 			.navbar li a:hover {
-				background-color: #343F51;
+				background-color: #293241;
 				color: #ee6c4d ;
 			}
-			img {
-				width: 20px;
-				height: 20px;
-				margin-left: 5px;
-				vertical-align: middle;
-			}
-			.tableHead {
-				text-align: center;
-				padding: 10px;
-			}
-			.displayTable {
+			table {
 				width: 90%;
-				table-layout: fixed;
-				margin-left: auto; 
-				margin-right: auto; 
-				text-align: center;
-				color: #D3D3D3;
-			}
-			.cell {
-				color: #D3D3D3;
-				text-align: center;
-				padding: 10px;
-				border-collapse: collapse;
-			}
-			.previewTable {
-				width: 90%;
-				margin-left: auto; 
+				margin-left: auto;
 				margin-right: auto;
-				color: #D3D3D3;
-				border-collapse: collapse;
-				text-align: center;
-			}
-			.previewCell {
-				color: #D3D3D3;
-				border-collapse: collapse;
-				border: 1px #D3D3D3 solid;
-				text-align: center;
-				padding: 5px;
-			}
-			.mask1 {
-				-webkit-mask-image: linear-gradient(black, transparent);
-				mask-image: linear-gradient(black, transparent);
-			}
-			a.tableItem {
-				padding: 5px;
-				border-radius: 10px;
-				display: block;
-				color: inherit;
-				text-decoration: inherit;
-			}
-			a.tableItem:hover {
-				background-color: #343F51;
-				display: block;
-				color: inherit;
-				text-decoration: inherit;
-			}
-			.titleTable {
 				table-layout: fixed;
-				width: 100%;
+				background-color: #343F51;
+				border-radius: 15px;
 			}
-			.middle {
+			td {
+				padding: 10px;
+			}
+			.textBox {
+				width: 100%;
 				color: #D3D3D3;
 				text-align: center;
+				display: block;
 			}
-			.right {
+			.hText {
+				color: white;
+				width: auto;
+				margin-left: auto;
+				margin-right: auto;
+				margin-bottom: auto;
+				padding-bottom: 20px;
+				text-align: center;
+			}
+			.leftText {
 				color: #D3D3D3;
-				text-align: right;
+				text-align: left;
+				width: auto;
+				display: inline-block;
+			}
+			img {
+				width: 100%;
+				border-radius: 30px;
 			}
 		</style>
 	</head>
@@ -124,8 +92,8 @@
 					<a class="navbar-brand"><img src="/static/images/OmniTracker.png" style="width: auto; height: 20px"></a>					
 				</div>
 				<ul class="nav navbar-nav">
-					<li><a href="/">Home</a></li>
-					<li><a class="active" href="OmniView">View Trackers</a></li>
+					<li><a class="active" href="/">Home</a></li>
+					<li><a href="OmniView">View Trackers</a></li>
 					<li><a href="OmniMake">Make Tracker</a></li>
 					<li><a href="OmniCalendar">Calendar</a></li>
 				</ul>
@@ -151,50 +119,37 @@
 		</nav>
 
 		
-		<!-- Content of the paage -->
+		<!-- Content of the page -->
 		<div class="mainDiv">
 
-			<p><u>Your Trackers</u></p>
+			<h1>About Me</h1>
 
-			<table class="displayTable">
-				<tr>
-					<th></th>
-					<th></th>
-					<th></th>
-				</tr>
-				{% set i = namespace(value=0) %}
-				{% for row in trackers|batch(3) %}
+			<br><br>
+
+			<div class="textBox">
+				<table>
 					<tr>
-					{% for col in row %}
-						<td class="cell">
-							<a href="/OmniEdit/{{col}}" class="tableItem">
-								<p>{{ col }}</p>
-								
+						<td>
+							<h4 class="hText">
+								Hello! <br>
+							</h4>
+							<p class="leftText">
+								My name is Alexander Button and I am a recent graduate from East Carolina Unniversity. I have a passion and interest in all things electronic, especially computers, on both the hardware and software ends. I have found over my course of learning at ECU that I greatly enjoy software engineering and web development. Currently I am looking for a job in the area of software engineering or web development, frontend/backend/fullstack, and I hope that even this quickly made website shows that I have some good knowledge and ability in those areas. 
 								<br><br>
-								<div class="mask1">
-									<table class="previewTable">
-										<tr>
-											{% for field in tableCols[i.value] %}
-											<th class="previewCell">{{ field }}</th>
-											{% endfor %}
-										</tr>
-										<tr>
-											{% for field in tableCols[i.value] %}
-											<th class="previewCell">~~~</th>
-											{% endfor %}
-										</tr>
-									</table>
-								</div>
-							</a>
+								If you want to see the code behind the website simply click the GitHub link in the bottom navbar 
+							</p>
 						</td>
-						{% set i.value = i.value + 1 %}
-					{% endfor %}
+						<td>
+							<img src="/static/images/AlexPhoto.jpg">
+						</td>
 					</tr>
-				{% endfor %}
+				</table>
 
-			</table>		
+			</div>
 
 		</div>
+
+		<br><br><br><br><br><br><br><br><br><br><br><br>
 
 	</body>
 </html>

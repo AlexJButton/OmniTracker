@@ -21,7 +21,7 @@
 				background-color: #293241 ; 
 				padding: 15px; 
 				border-radius: 15px; 
-				color: #D3D3D3;
+				color: #ee6c4d;
 			}
 			.navbar {
 				background-color: #343F51;
@@ -41,76 +41,26 @@
 				font-weight: bold;
 			}
 			.navbar li a:hover {
-				background-color: #343F51;
+				background-color: #293241;
 				color: #ee6c4d ;
 			}
-			img {
-				width: 20px;
-				height: 20px;
-				margin-left: 5px;
-				vertical-align: middle;
-			}
-			.tableHead {
-				text-align: center;
-				padding: 10px;
-			}
-			.displayTable {
-				width: 90%;
-				table-layout: fixed;
-				margin-left: auto; 
-				margin-right: auto; 
-				text-align: center;
-				color: #D3D3D3;
-			}
-			.cell {
-				color: #D3D3D3;
-				text-align: center;
-				padding: 10px;
-				border-collapse: collapse;
-			}
-			.previewTable {
-				width: 90%;
-				margin-left: auto; 
-				margin-right: auto;
-				color: #D3D3D3;
-				border-collapse: collapse;
-				text-align: center;
-			}
-			.previewCell {
-				color: #D3D3D3;
-				border-collapse: collapse;
-				border: 1px #D3D3D3 solid;
-				text-align: center;
-				padding: 5px;
-			}
-			.mask1 {
-				-webkit-mask-image: linear-gradient(black, transparent);
-				mask-image: linear-gradient(black, transparent);
-			}
-			a.tableItem {
-				padding: 5px;
-				border-radius: 10px;
-				display: block;
-				color: inherit;
-				text-decoration: inherit;
-			}
-			a.tableItem:hover {
-				background-color: #343F51;
-				display: block;
-				color: inherit;
-				text-decoration: inherit;
-			}
-			.titleTable {
-				table-layout: fixed;
+			.textBox {
 				width: 100%;
-			}
-			.middle {
 				color: #D3D3D3;
 				text-align: center;
+				display: block;
 			}
-			.right {
+			.middleText {
 				color: #D3D3D3;
-				text-align: right;
+				width: 50%;
+				text-align: left;
+				margin-left: auto	;
+				margin-right: auto;
+			}
+			.mentionText {
+				padding-left: 10px;
+				font-size: 10px;
+				color: #D3D3D3;
 			}
 		</style>
 	</head>
@@ -124,8 +74,8 @@
 					<a class="navbar-brand"><img src="/static/images/OmniTracker.png" style="width: auto; height: 20px"></a>					
 				</div>
 				<ul class="nav navbar-nav">
-					<li><a href="/">Home</a></li>
-					<li><a class="active" href="OmniView">View Trackers</a></li>
+					<li><a class="active" href="/">Home</a></li>
+					<li><a href="OmniView">View Trackers</a></li>
 					<li><a href="OmniMake">Make Tracker</a></li>
 					<li><a href="OmniCalendar">Calendar</a></li>
 				</ul>
@@ -151,50 +101,25 @@
 		</nav>
 
 		
-		<!-- Content of the paage -->
+		<!-- Content of the page -->
 		<div class="mainDiv">
 
-			<p><u>Your Trackers</u></p>
+			<h1>Page Under Construction</h1>
 
-			<table class="displayTable">
-				<tr>
-					<th></th>
-					<th></th>
-					<th></th>
-				</tr>
-				{% set i = namespace(value=0) %}
-				{% for row in trackers|batch(3) %}
-					<tr>
-					{% for col in row %}
-						<td class="cell">
-							<a href="/OmniEdit/{{col}}" class="tableItem">
-								<p>{{ col }}</p>
-								
-								<br><br>
-								<div class="mask1">
-									<table class="previewTable">
-										<tr>
-											{% for field in tableCols[i.value] %}
-											<th class="previewCell">{{ field }}</th>
-											{% endfor %}
-										</tr>
-										<tr>
-											{% for field in tableCols[i.value] %}
-											<th class="previewCell">~~~</th>
-											{% endfor %}
-										</tr>
-									</table>
-								</div>
-							</a>
-						</td>
-						{% set i.value = i.value + 1 %}
-					{% endfor %}
-					</tr>
-				{% endfor %}
+			<br><br>
 
-			</table>		
+			<div class="textBox">
+				<h3>This page has not been finished and is still being worked on.</h3>
+				<p>
+					This is planed to hold a calendar that will show information from your various trackers that have dates listed. <br>
+					For more information on this go <a href="/#extraInfo">here.</a>
+				</p>
+
+			</div>
 
 		</div>
+
+		<br><br><br><br><br><br><br><br><br><br><br><br>
 
 	</body>
 </html>

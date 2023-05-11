@@ -24,7 +24,7 @@
 				color: #ee6c4d;
 			}
 			.navbar {
-				background-color: #3d5a80;
+				background-color: #343F51;
 				border: 3px solid;
 				border-color: black;
 			}
@@ -43,6 +43,75 @@
 			.navbar li a:hover {
 				background-color: #293241;
 				color: #ee6c4d ;
+			}
+			.textBox {
+				width: 100%;
+				color: #D3D3D3;
+				text-align: center;
+				display: block;
+			}
+			.leftText {
+				color: #D3D3D3;
+				text-align: left;
+				width: auto;
+				display: inline-block;
+			}
+			.middleText {
+				color: #D3D3D3;
+				width: 50%;
+				text-align: left;
+				margin-left: auto	;
+				margin-right: auto;
+				padding: 10px;
+			}
+			.introBox {
+				width: 90%;
+				margin-left: auto;
+				margin-right: auto;
+				background-color: #343F51;
+				border-radius: 15px;
+			}
+			table {
+				width: 90%;
+				margin-left: auto;
+				margin-right: auto;
+				table-layout: fixed;
+				background-color: #343F51;
+				border-radius: 15px;
+			}
+			td {
+				padding: 10px;
+			}
+			td img {
+				width: auto;
+				max-width: 100%;
+				height: auto;
+				display: inline-block;
+				border: 1px solid #D3D3D3;
+				border-radius: 10px;
+			}
+			.mentionText {
+				padding-left: 10px;
+				font-size: 10px;
+				color: #D3D3D3;
+			}
+			.hText {
+				color: white;
+				width: auto;
+				margin-left: auto;
+				margin-right: auto;
+				margin-bottom: auto;
+				padding-bottom: 20px;
+				text-align: center;
+			}
+			.imgBox {
+				width: 50%;
+				height: auto;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			div img {
+				width: 100%;
 			}
 		</style>
 	</head>
@@ -86,10 +155,128 @@
 		<!-- Content of the page -->
 		<div class="mainDiv">
 
-			<p>Basic into page</p>
+			<h1>OmniTracker</h1>
+			<div class="imgBox">
+				<img src="/static/images/Logo2.png">
+			</div>
+
+			<div class="textBox">
+				<div class="introBox">
+					<h3>What is OmniTracker?</h3>
+					<p class="middleText">
+						OmniTrack is fairly self explanatory from the name, it lets you track everything! <br>
+						This is a website that allows the users to create completely custom tables with whatever information they want.
+						OmniTracker is a website idea I thought of while working on some of my colloge projects that I simply didnt have the time or knowledge to make at the time and is something I am making now while I am searching for a job.
+					</p>
+				</div>
+			</div>
+
+			<br><br><br>
+
+			<div class="textBox">
+				<h3><u>How do you use OmniTracker?</u></h3>
+				<br>
+				<table>
+					<tr>
+						<td>
+							<h4 class="hText">
+								Simple! <br>
+								First just create an account on the signup page and then login: 
+							</h4>
+							<p class="mentionText">
+								(Passwords <i>are</i> stored with hashing for security but I would recommend against using a password you use elsewhere)
+							</p>
+							<p class="leftText">
+								- You can then just use that account to login and everything you create/edit/delete will be saved between sessions.
+							</p>
+						</td>
+						<td>
+							<img src="/static/images/signup.png">
+						</td>
+					</tr>
+				</table>
+
+				<br>
+
+				<table>
+					<tr>
+						<td>
+							<h4 class="hText">
+								Now you can make a tracker:
+							</h4>
+							<p class="leftText">
+								- Navigate to the "Make Tracker" page with the navbar at the top. <br>
+								- From here you can set the name of the tracker and add/remove fields(columns) and set their type. <br>
+							</p>
+							<p class="mentionText">
+								(Right now the only supported types are text and numbers but I want to add support for dates, times, and more. These dates and times would also include setting up automated alerts to the user when the date & time is near.)
+							</p>
+						</td>
+						<td>
+							<img src="/static/images/MakeTable.png">
+						</td>
+					</tr>
+				</table>
+
+				<br>
+
+				<table>
+					<tr>
+						<td>
+							<h4 class="hText">
+								After you make the tracker you will be directed to add the first information:
+							</h4>
+							<p class="leftText">
+								- From here you can edit the table, adding and removing entire rows or just changing the entry in each cell. <br>
+								- After you are done you just need to click save at the bottom and all your changes will be kept. <br>
+								- As you can see on the top right of the image you are also able to to delete the tracker from this screen.
+							</p>
+						</td>
+						<td>
+							<img src="/static/images/EditTable2.png">
+						</td>
+					</tr>
+				</table>
+
+				<br>
+
+				<table>
+					<tr>
+						<td>
+							<h4 class="hText">	
+								Lastly, viewing all of the trackers you have from the "View Trackers" page at the top navbar:
+							</h4>
+							<p class="leftText">
+								- In here you can click on any of the listed trackers that you have made and you will be taken to the page where you can edit them.
+							</p>
+						</td>
+						<td>
+							<img src="/static/images/ViewTable.png">
+						</td>
+					</tr>
+				</table>
+
+			</div>
+
+			<br><br><br><br>
+
+			<div class="textBox" id="extraInfo">
+				<h3>Extra information/Missing Features:</h3>
+				<p class="middleText">
+					This site is still very early in its creation (Less than a week of work) and I have not yet had time to finish all of the planned features.
+					You saw that above where i mention the "Make Tracker" page where I have plans to include more field types like date and time. I feel that these features, along with automated warnings for when that day is close, are important and should be included for a site like this one.
+					<br> 
+					This website in part is something I am working on while I am still searching for a job and as such I may not have much free time to work on this so progress may not be fast.
+					<br><br> 
+					To see a todo list of the planed features go to the github readme for the project <a href="https://github.com/AlexJButton/OmniTracker#readme" target="_blank" rel="noopener noreferrer">here.</a>
+				</p>
+			</div>
+			
 			
 
 		</div>
+
+		<br><br><br><br><br><br><br><br><br><br><br><br>
 
 	</body>
 </html>
