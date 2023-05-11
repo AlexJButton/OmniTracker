@@ -66,10 +66,27 @@ def edit(tracker):
 @login_required
 def edit2(tracker):
 
-    numRows = request.form.get("rowCount")
+    # Getting the column names of the table
+    engine = db.engine
+    inspector = inspect(engine)
+    tableName = f"{current_user.id}_{tracker}"
+    with engine.connect() as connection:
+        tableCols = [dict["name"] for dict in inspector.get_columns(tableName) if not dict["name"] == "id"]
+
+    # Getting the number of rows in the saved table from the hidden input field
+    numRows = int(request.form.get("rowCount"))
+
+    # Getting the rows of data from the table
+    tableData = []
+    tableID = []
+    for i in range(1, numRows+1):
+        tableData.append([request.form.get(col+str(i)) for col in tableCols])
+        tableID.append([col + str(i) for col in tableCols])
+    print(tableData)
+    print(tableID)
 
 
-    return "Success " + tracker + ", numRows: " + numRows
+    return "Testing"
 
 
 @views.route("/OmniMake", methods=["GET", "POST"])

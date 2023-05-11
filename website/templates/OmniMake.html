@@ -21,7 +21,7 @@
 				background-color: #293241 ; 
 				padding: 15px; 
 				border-radius: 15px; 
-				color: #ee6c4d;
+				color: #D3D3D3;
 			}
 			.navbar {
 				background-color: #3d5a80;
@@ -70,7 +70,7 @@
 				border-bottom: none;
 			}
 			.left {
-				color: #ee6c4d;
+				color: #D3D3D3;
 				text-align: left;
 				padding: 10px;
 				border-top: 1px solid #ccc;
@@ -148,8 +148,8 @@
 					<table>
 						<thead>
 							<tr>
-								<th style="text-align: left; color: #ee6c4d;">Table Name:</th>
-								<th style="text-align: right; color: #ee6c4d;">Click to add a field:</th>
+								<th style="text-align: left; color: #D3D3D3;">Table Name:</th>
+								<th style="text-align: right; color: #D3D3D3;">Click to add a field:</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -170,8 +170,8 @@
 						<thead>
 							<tr>
 								<th class="left">Field Number</th>
-								<th class="middle" style="color: #ee6c4d;">Field Name:</th>
-								<th class="right" style="color: #ee6c4d;">Field Type</th>
+								<th class="middle" style="color: #D3D3D3;">Field Name:</th>
+								<th class="right" style="color: #D3D3D3;">Field Type</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -199,6 +199,7 @@
 
 				<div class="text-center">
 					<button type="submit" id="submitBtn" class="btn btn-primary submitBtn" disabled>Submit</button>
+					<p id="disableMessage" style="color: #ee6c4d;">(please fill out all the text fields)</p>
 				</div>
 			</form>
 		</div>
@@ -220,9 +221,11 @@
 
 				if (filled) {
 					document.getElementById("submitBtn").removeAttribute("disabled");
+					document.getElementById("disableMessage").innerHTML = "<br>";
 				}
 				else {
 					document.getElementById("submitBtn").setAttribute("disabled", true);
+					document.getElementById("disableMessage").textContent = "(please fill out all the text fields)";
 				}
 			}
 

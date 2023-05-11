@@ -21,7 +21,7 @@
 				background-color: #293241 ; 
 				padding: 15px; 
 				border-radius: 15px; 
-				color: #ee6c4d;
+				color: #D3D3D3;
 			}
 			.scrollDiv {
 				width: 90%;
@@ -86,7 +86,7 @@
 			.cell2 {
 				text-align: center;
 				padding: 5px;
-				color: #ee6c4d;
+				color: #D3D3D3;
 			}
 			.submitBtn {
 				height: 50px; 
@@ -156,7 +156,7 @@
 					<table id="editTable" class="editTable">
 						<tr>
 							{% for field in tableCols %}
-								<th class="cell" style="color: #ee6c4d;" id="header{{loop.index0}}" name="{{field}}">{{ field }}</th>
+								<th class="cell" style="color: #D3D3D3;" id="header{{loop.index0}}" name="{{field}}">{{ field }}</th>
 							{% endfor %}
 							<th class="delCell" id="header{{tableCols|length}}" name="deleteBtn"></th>
 						</tr>
@@ -165,11 +165,11 @@
 							<tr>
 								{% for item in row %}
 									{% if tableTypes[loop.index0] == 1 %}
-										<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}{{i.value}}" value="{{item}}" onkeyup="checkSubmit()"></td>
+										<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}{{i.value}}" name="{{tableCols[loop.index0]}}{{i.value}}" value="{{item}}" onkeyup="checkSubmit()"></td>
 									{% elif tableTypes[loop.index0] == 0 %}
-										<td class="cell"><input type="number" id="{{tableCols[loop.index0]}}{{i.value}}" value="{{item}}" onkeyup="checkSubmit()"></td>
+										<td class="cell"><input type="number" id="{{tableCols[loop.index0]}}{{i.value}}" name="{{tableCols[loop.index0]}}{{i.value}}" value="{{item}}" step="0.00000001" onkeyup="checkSubmit()"></td>
 									{% else %}
-										<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}{{i.value}}" value="ERROR UKNOWN TYPE" onkeyup="checkSubmit()"></td>
+										<td class="cell"><input type="text" id="{{tableCols[loop.index0]}}{{i.value}}" name="{{tableCols[loop.index0]}}{{i.value}}" value="ERROR UKNOWN TYPE" onkeyup="checkSubmit()"></td>
 									{% endif %}
 								{% endfor %}
 								{% if loop.index0 > 0 %}
@@ -188,6 +188,7 @@
 				<input type="hidden" id="rowCount" name="rowCount" value="{{tableRows|length}}">
 				<div class="text-center">
 					<button type="submit" id="submitBtn" class="btn btn-primary submitBtn">Submit</button>
+					<p id="disableMessage" style="color: #ee6c4d;"><br></p>
 				</div>
 
 			</form>
@@ -211,9 +212,11 @@
 
 				if (filled) {
 					document.getElementById("submitBtn").removeAttribute("disabled");
+					document.getElementById("disableMessage").innerHTML = "<br>";
 				}
 				else {
 					document.getElementById("submitBtn").setAttribute("disabled", true);
+					document.getElementById("disableMessage").textContent = "(please fill out all the text fields)";
 				}
 			}
 
@@ -239,11 +242,13 @@
 					var input = document.createElement("input");
 					input.type = typing;
 					input.id = cName+String(num);
+					input.name = cName+String(num);
 					if (typing == "text") {
 						//input.value = " ";
 					}
 					else if (typing == "number") {
 						//input.value = 0;
+						input.step = "0.00000001"
 					}
 					else {
 						//input.value = "ERROR ASSIGNING VALUE IN JS";
@@ -311,6 +316,7 @@
 							var element = document.getElementById(cName+String(i));
 							if (element) {
 								element.id = cName + String(i-1);
+								element.name = cName + String(i-1);
 							}
 							else {
 								console.warn("element of ID: " + String(cName) + String(i-1) + " does not exist")
