@@ -10,3 +10,4 @@ Made by: Alexander Button
 - Add profile page and support account deletion
 - Make OmniCalendar page and functionality
 - Make email reminder system
+- Update to newer Bootstrap versions
