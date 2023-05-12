@@ -59,11 +59,6 @@ def edit(tracker):
     if tableRows == []:
         tableRows = [["Empty" if col == 1 else 0 if col == 0 else "ERROR" for col in tableTypes]]
 
-    print("tName:", tracker)
-    print("tableCols:", tableCols)
-    print("tableRows:", tableRows)
-    print("tableTypes:", tableTypes)
-
     return render_template("OmniEdit.html", tName=tracker, tableCols=tableCols, tableRows=tableRows, tableTypes=tableTypes)
 
 
@@ -109,7 +104,6 @@ def edit2(tracker):
             columns = ", ".join(["'" + col + "'" for col in tableCols])
             connection.execute(text(f"INSERT INTO '{tableName}' ({columns}) VALUES ({values})"))
             connection.commit()
-            print(f"INSERT INTO '{tableName}' ({columns}) VALUES ({values})")
 
     connection.commit()
     connection.close()
@@ -163,13 +157,10 @@ def about():
 
 def colType(col):
     if col == "Text":
-        print(col, "is returning Text")
         return Text()
     elif col == "Number":
-        print(col, "is returning Integer")
         return Integer()
     else:
-        print(col, "is returning base case")
         return Text()
 
 
