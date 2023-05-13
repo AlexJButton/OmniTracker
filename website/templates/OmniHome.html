@@ -91,7 +91,7 @@
 				border-radius: 10px;
 			}
 			.mentionText {
-				padding-left: 10px;
+				padding-left: 12px;
 				font-size: 10px;
 				color: #D3D3D3;
 			}
@@ -155,16 +155,17 @@
 		<!-- Content of the page -->
 		<div class="mainDiv">
 			<div class="imgBox">
-				<img src="/static/images/Logo.png">
+				<img src="{{ url_for('static', filename='images/Logo.png') }}">
 			</div>
 
 			<div class="textBox">
 				<div class="introBox">
 					<h3>What is OmniTracker?</h3>
 					<p class="middleText">
-						OmniTrack is fairly self explanatory from the name, it lets you track everything! <br>
+						This is a personal project that I have made to practice and learn more about web development (<a href="/OmniAbout">learn more</a>). <br>
+						OmniTracker is fairly self explanatory from the name, it lets you track everything! <br>
 						This is a website that allows the users to create completely custom tables with whatever information they want.
-						OmniTracker is a website idea I thought of while working on some of my colloge projects that I simply didnt have the time or knowledge to make at the time and is something I am making now while I am searching for a job.
+						OmniTracker is a website idea I thought of while working on some of my college projects that I simply didn't have the time or knowledge to make at the time and is something I am making now while I am searching for a job.
 					</p>
 				</div>
 			</div>
@@ -189,7 +190,7 @@
 							</p>
 						</td>
 						<td>
-							<img src="/static/images/signup.png">
+							<img src="{{ url_for('static', filename='images/Signup.PNG') }}">
 						</td>
 					</tr>
 				</table>
@@ -211,7 +212,7 @@
 							</p>
 						</td>
 						<td>
-							<img src="/static/images/MakeTable.png">
+							<img src="{{ url_for('static', filename='images/MakeTable.PNG') }}">
 						</td>
 					</tr>
 				</table>
@@ -227,11 +228,11 @@
 							<p class="leftText">
 								- From here you can edit the table, adding and removing entire rows or just changing the entry in each cell. <br>
 								- After you are done you just need to click save at the bottom and all your changes will be kept. <br>
-								- As you can see on the top right of the image you are also able to to delete the tracker from this screen.
+								- As you can see on the top right of the image you are also able to delete the tracker from this screen.
 							</p>
 						</td>
 						<td>
-							<img src="/static/images/EditTable.png">
+							<img src="{{ url_for('static', filename='images/EditTable.PNG') }}">
 						</td>
 					</tr>
 				</table>
@@ -249,7 +250,8 @@
 							</p>
 						</td>
 						<td>
-							<img src="/static/images/ViewTable.png">
+							<img src="{{ url_for('static', filename='images/ViewTable.PNG') }}">
+							
 						</td>
 					</tr>
 				</table>
@@ -262,11 +264,11 @@
 				<h3>Extra information/Missing Features:</h3>
 				<p class="middleText">
 					This site is still very early in its creation (Less than a week of work) and I have not yet had time to finish all of the planned features.
-					You saw that above where i mention the "Make Tracker" page where I have plans to include more field types like date and time. I feel that these features, along with automated warnings for when that day is close, are important and should be included for a site like this one.
+					You saw that above where I mention the "Make Tracker" page where I have plans to include more field types like date and time. I feel that these features, along with automated warnings for when that day is close, are important and should be included for a site like this one.
 					<br> 
 					This website in part is something I am working on while I am still searching for a job and as such I may not have much free time to work on this so progress may not be fast.
 					<br><br> 
-					To see a todo list of the planed features go to the github readme for the project <a href="https://github.com/AlexJButton/OmniTracker#readme" target="_blank" rel="noopener noreferrer">here.</a>
+					To see a todo list of the planned features go to the github readme for the project <a href="https://github.com/AlexJButton/OmniTracker#readme" target="_blank" rel="noopener noreferrer">here.</a>
 				</p>
 			</div>
 			

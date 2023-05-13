@@ -113,35 +113,36 @@ def edit2(tracker):
     return redirect(url_for("views.edit", tracker=tracker))
 
 
-@views.route("/OmniMake", methods=["GET", "POST"])
-@login_required
+@views.route("/OmniMake")
 def make():
-    if request.method == "POST":
 
-        # Getting all the user specified info from the user
-        tName = request.form.get("tableName")
-        num = int(request.form.get("fieldCount")) # This is the invisible input value for how many fields there are
-        fieldsList = []
-        for i in range(1, num+1):
-            fName = request.form.get(f"{i}name")
-            fType = request.form.get(f"{i}")
-            fieldsList.append(Column(fName, colType(fType)))
+    return render_template("OmniMake.html")
 
-        uID = current_user.id  # Getting the user id and adding it to the table name for later retrieval uses
-        tNameUID = f"{uID}_{tName}"
 
-        # Creating the table with the name, a primary key, and the requested fields
-        metadata = MetaData()
-        tableData = Table(tNameUID, metadata,
+@views.route("/OmniMake", methods=["POST"])
+@login_required
+def make2():
+    # Getting all the user specified info from the user
+    tName = request.form.get("tableName")
+    num = int(request.form.get("fieldCount")) # This is the invisible input value for how many fields there are
+    fieldsList = []
+    for i in range(1, num+1):
+        fName = request.form.get(f"{i}name")
+        fType = request.form.get(f"{i}")
+        fieldsList.append(Column(fName, colType(fType)))
+
+    uID = current_user.id  # Getting the user id and adding it to the table name for later retrieval uses
+    tNameUID = f"{uID}_{tName}"
+
+    # Creating the table with the name, a primary key, and the requested fields
+    metadata = MetaData()
+    tableData = Table(tNameUID, metadata,
                           Column("id", Integer, primary_key=True),
                           *fieldsList)
 
-        metadata.create_all(db.engine)
+    metadata.create_all(db.engine)
 
-        return redirect(url_for("views.edit", tracker=tName))
-
-
-    return render_template("OmniMake.html")
+    return redirect(url_for("views.edit", tracker=tName))
 
 
 @views.route("/OmniCalendar")
