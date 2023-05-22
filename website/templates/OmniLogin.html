@@ -1,11 +1,14 @@
 <!-- This is a website for testing a form setup -->
 <html>
 	<head>
+		<!-- Imports -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 		<meta charset="utf-8">
   		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 		<title>OmniTracker</title>
 		<link rel="shortcut icon" href="{{ url_for('static', filename='/images/favicon.ico') }}">
 		<style>
@@ -43,6 +46,7 @@
 			.navbar li a:hover {
 				background-color: #293241;
 				color: #ee6c4d ;
+				text-decoration: none;
 			}
 			img {
 				width: 20px;
@@ -54,7 +58,7 @@
 				text-align: center;
 				padding: 10px;
 			}
-			table {
+			.loginTable {
 				width: 33%;
 				margin-left: auto; 
 				margin-right: auto; 
@@ -89,37 +93,35 @@
 
 	<body style="background-color: #D3D3D3;">
 
+
 		<!-- Top Navbar -->
-		<nav class="navbar navbar-fixed-top">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand"><img src="/static/images/OmniTracker.png" style="width: auto; height: 20px"></a>					
-				</div>
-				<ul class="nav navbar-nav">
-					<li><a href="/">Home</a></li>
-					<li><a href="OmniView">View Trackers</a></li>
-					<li><a href="OmniMake">Make Tracker</a></li>
-					<li><a href="OmniCalendar">Calendar</a></li>
+		<nav class="navbar navbar-expand-lg fixed-top">
+			<!-- OmniTracker logo in navbar -->	
+			<a class="navbar-brand"><img src="/static/images/OmniTracker.png" style="width: auto; height: 20px"></a>		
+
+			<!-- Navbar expand for mobile screens -->
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    			<span class="navbar-toggler-icon"><img src="{{ url_for('static', filename='images/expandBtn.png') }}" style="width: 100%; height: 100%;"></img></span>
+    		</button>
+
+			<!-- The various links in the navbar -->
+			<div class="collapse navbar-collapse" id="navbarNav"> 
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="OmniView">View Trackers</a></li>
+					<li class="nav-item"><a class="nav-link" href="OmniMake">Make Tracker</a></li>
+					<li class="nav-item"><a class="nav-link" href="OmniCalendar">Calendar</a></li>
 				</ul>
-				<ul class="nav navbar-nav navbar-right">
+				<ul class="navbar-nav ml-auto">
 					{% if current_user.is_authenticated %}
-					<li><a href="OmniLogout">Logout</a></li>
+					<li class="nav-item"><a class="nav-link" href="OmniLogout">Logout</a></li>
 					{% else %}
-					<li><a class="active" href="OmniLogin">Login</a></li>
-					<li><a href="OmniSignUp">Sign Up</a></li>
+					<li class="nav-item"><a class="nav-link" href="OmniLogin">Login</a></li>
+					<li class="nav-item"><a class="nav-link" href="OmniSignUp">Sign Up</a></li>
 					{% endif %}
 				</ul>
 			</div>
-		</nav>
-
-		<!-- Bottom Navbar -->
-		<nav class="navbar navbar-fixed-bottom">
-			<div class="container-fluid">
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="OmniAbout">About Me</a></li>
-					<li><a href="https://github.com/AlexJButton/OmniTracker" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-				</ul>
-			</div>
+			
 		</nav>
 
 		
@@ -135,38 +137,58 @@
 			{% endwith %}
 
 			<p>Login</p>
-			<form class="form-inline" action="/OmniLogin" method="post">
-				<table id = "mainTable">
-						<thead>
-							<tr>
-								<th class="middle">Username:</th>
-								<th class="middle">Password:</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="left">
-									<input type="text" name="email" id="email" placeholder="Username" >
-								</td>
-								<td class="right">
-									<input type="password" name="password" id="password" placeholder="Password" >
-								</td>
-							</tr>
-							<tr>
-								<td class="left">
-									<label type="label" id="remCheck" class="control-label" for="remember" style="color: white;">Remember me:</label>
-									<input type="checkbox" name="remember", id="remember">
-								</td>
-								<td class="right">
-									<button type="submit" class="btn btn-primary">Login</button>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+			<form class="form" action="/OmniLogin" method="post">
+				<table id = "mainTable" class="loginTable">
+					<thead>
+						<tr>
+							<th class="middle">Username:</th>
+							<th class="middle">Password:</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="left">
+								<input type="text" name="email" id="email" placeholder="Username" >
+							</td>
+							<td class="right">
+								<input type="password" name="password" id="password" placeholder="Password" >
+							</td>
+						</tr>
+						<tr>
+							<td class="left">
+								<label type="label" id="remCheck" class="control-label" for="remember" style="color: white;">Remember me:</label>
+								<input type="checkbox" name="remember", id="remember">
+							</td>
+							<td class="right">
+								<button type="submit" class="btn btn-primary">Login</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 
 			</form>
 
 		</div>
+
+		<br><br><br>
+
+		<div class="footer">
+			<nav class="navbar navbar-expand-sm fixed-bottom">
+
+				<!-- Navbar expand for mobile screens (Shouldn't ever be needed as its only two items) -->
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	    			<span class="navbar-toggler-icon"><img src="{{ url_for('static', filename='images/expandBtn.png') }}" style="width: 100%; height: 100%;"></img></span>
+	    		</button>
+
+				<div class="collapse navbar-collapse" id="navbarNav"> 
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item"><a class="nav-link" href="OmniAbout">About Me</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://github.com/AlexJButton/OmniTracker" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+
 
 
 

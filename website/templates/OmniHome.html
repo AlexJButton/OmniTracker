@@ -28,8 +28,7 @@
 			}
 			.navbar {
 				background-color: #343F51;
-				border: 3px solid;
-				border-color: black;
+				border: 3px solid black;
 			}
 			li a {
 				font-family: 'Verdana';
@@ -74,7 +73,7 @@
 				background-color: #343F51;
 				border-radius: 15px;
 			}
-			table {
+			table.displayTable {
 				width: 90%;
 				margin-left: auto;
 				margin-right: auto;
@@ -82,7 +81,7 @@
 				background-color: #343F51;
 				border-radius: 15px;
 			}
-			td {
+			table.displayTable td {
 				padding: 10px;
 			}
 			td img {
@@ -128,7 +127,7 @@
 
 			<!-- Navbar expand for mobile screens -->
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    			<span class="navbar-toggler-icon"><img src="/static/images/trash.png" style="width: auto; height: 20px"></img></span>
+    			<span class="navbar-toggler-icon"><img src="{{ url_for('static', filename='images/expandBtn.png') }}" style="width: 100%; height: 100%;"></img></span>
     		</button>
 
 			<!-- The various links in the navbar -->
@@ -139,29 +138,17 @@
 					<li class="nav-item"><a class="nav-link" href="OmniMake">Make Tracker</a></li>
 					<li class="nav-item"><a class="nav-link" href="OmniCalendar">Calendar</a></li>
 				</ul>
-				<ul class="nav navbar-nav navbar-right">
+				<ul class="navbar-nav ml-auto">
 					{% if current_user.is_authenticated %}
-					<li><a href="OmniLogout">Logout</a></li>
+					<li class="nav-item"><a class="nav-link" href="OmniLogout">Logout</a></li>
 					{% else %}
-					<li><a href="OmniLogin">Login</a></li>
-					<li><a href="OmniSignUp">Sign Up</a></li>
+					<li class="nav-item"><a class="nav-link" href="OmniLogin">Login</a></li>
+					<li class="nav-item"><a class="nav-link" href="OmniSignUp">Sign Up</a></li>
 					{% endif %}
 				</ul>
 			</div>
 			
-			
 		</nav>
-
-		<!-- Bottom Navbar -->
-		<nav class="navbar fixed-bottom">
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="nav navbar-nav navbar-right">
-					<li class="nav-item"><a class="nav-link" href="OmniAbout">About Me</a></li>
-					<li class="nav-item"><a class="nav-link" href="https://github.com/AlexJButton/OmniTracker" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-				</ul>
-			</div>
-		</nav>
-
 		
 		<!-- Content of the page -->
 		<div class="mainDiv">
@@ -186,7 +173,7 @@
 			<div class="textBox">
 				<h3><u>How do you use OmniTracker?</u></h3>
 				<br>
-				<table>
+				<table class="displayTable">
 					<tr>
 						<td>
 							<h4 class="hText">
@@ -208,7 +195,7 @@
 
 				<br>
 
-				<table>
+				<table class="displayTable">
 					<tr>
 						<td>
 							<h4 class="hText">
@@ -230,7 +217,7 @@
 
 				<br>
 
-				<table>
+				<table class="displayTable">
 					<tr>
 						<td>
 							<h4 class="hText">
@@ -250,7 +237,7 @@
 
 				<br>
 
-				<table>
+				<table class="displayTable">
 					<tr>
 						<td>
 							<h4 class="hText">	
@@ -282,12 +269,27 @@
 					To see a todo list of the planned features go to the github readme for the project <a href="https://github.com/AlexJButton/OmniTracker#readme" target="_blank" rel="noopener noreferrer">here.</a>
 				</p>
 			</div>
-			
-			
-
 		</div>
 
-		<br><br><br><br><br><br><br><br><br><br><br><br>
+		<br><br><br>
+
+		<div class="footer">
+			<nav class="navbar navbar-expand-sm fixed-bottom">
+
+				<!-- Navbar expand for mobile screens (Shouldn't ever be needed as its only two items) -->
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	    			<span class="navbar-toggler-icon"><img src="{{ url_for('static', filename='images/expandBtn.png') }}" style="width: 100%; height: 100%;"></img></span>
+	    		</button>
+
+				<div class="collapse navbar-collapse" id="navbarNav"> 
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item"><a class="nav-link" href="OmniAbout">About Me</a></li>
+						<li class="nav-item"><a class="nav-link" href="https://github.com/AlexJButton/OmniTracker" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+
 
 	</body>
 </html>
