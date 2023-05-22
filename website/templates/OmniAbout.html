@@ -25,6 +25,7 @@
 				padding: 15px; 
 				border-radius: 15px; 
 				color: #ee6c4d;
+				min-width: 720px;
 			}
 			.navbar {
 				background-color: #343F51;
@@ -62,7 +63,6 @@
 				width: 100%;
 				color: #D3D3D3;
 				text-align: center;
-				display: block;
 			}
 			.hText {
 				color: white;
@@ -81,6 +81,12 @@
 			}
 			img {
 				width: 100%;
+				height: auto;
+			}
+			.block{
+				width: 45%;
+				min-width: 480px;
+				display: inline-block;
 			}
 		</style>
 	</head>
@@ -126,23 +132,21 @@
 			<br><br>
 
 			<div class="textBox">
-				<table class="aboutTable">
-					<tr>
-						<td>
-							<h4 class="hText">
-								Hello! <br>
-							</h4>
-							<p class="leftText">
-								My name is Alexander Button, though I go by Alex, and I am a recent graduate from East Carolina University. I have a passion and interest in all things electronic, especially computers, on both the hardware and software ends. I have found over my course of learning at ECU that I greatly enjoy software engineering and web development. Currently I am looking for a job in the area of software engineering or web development, frontend/backend/fullstack, and I hope that even this quickly made website shows that I have some good knowledge and ability in those areas. If you have any questions or comments feel free to contact me at alexjbutton@gmail.com.
-								<br><br>
-								If you want to see the code behind the website simply click the GitHub link in the bottom navbar.
-							</p>
-						</td>
-						<td>
-							<img src="{{ url_for('static', filename='images/AlexPhoto3.JPG') }}" alt="GraduationPhoto">						
-						</td>
-					</tr>
-				</table>
+				<div class="block">
+					<h4 class="hText">
+						Hello! <br>
+					</h4>
+					<p class="leftText">
+						My name is Alexander Button, though I go by Alex, and I am a recent graduate from East Carolina University. I have a passion and interest in all things electronic, especially computers, on both the hardware and software ends. I have found over my course of learning at ECU that I greatly enjoy software engineering and web development. Currently I am looking for a job in the area of software engineering or web development, frontend/backend/fullstack, and I hope that even this quickly made website shows that I have some good knowledge and ability in those areas. If you have any questions or comments feel free to contact me at alexjbutton@gmail.com.
+						<br><br>
+						If you want to see the code behind the website simply click the GitHub link in the bottom navbar.
+					</p>
+				</div>
+				<div class="block">
+					<img src="{{ url_for('static', filename='images/AlexPhoto3.JPG') }}" alt="GraduationPhoto">
+				</div>
+													
+
 
 			</div>
 
@@ -154,11 +158,11 @@
 			<nav class="navbar navbar-expand-sm fixed-bottom">
 
 				<!-- Navbar expand for mobile screens (Shouldn't ever be needed as its only two items) -->
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav2" aria-controls="navbarNav2" aria-expanded="false" aria-label="Toggle navigation">
 	    			<span class="navbar-toggler-icon"><img src="{{ url_for('static', filename='images/expandBtn.png') }}" style="width: 100%; height: 100%;"></img></span>
 	    		</button>
 
-				<div class="collapse navbar-collapse" id="navbarNav"> 
+				<div class="collapse navbar-collapse" id="navbarNav2"> 
 					<ul class="navbar-nav ml-auto">
 						<li class="nav-item"><a class="nav-link" href="OmniAbout">About Me</a></li>
 						<li class="nav-item"><a class="nav-link" href="https://github.com/AlexJButton/OmniTracker" target="_blank" rel="noopener noreferrer">GitHub</a></li>
